@@ -8,10 +8,11 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func (h *TranscoderHandler) putTranscoder(c echo.Context) error {
+func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 
 	// Variable to hold the request payload
 	var trancoder Transcoder
@@ -30,20 +31,25 @@ func (h *TranscoderHandler) putTranscoder(c echo.Context) error {
 	}
 
 	// Getting the ID from the request
-	id := c.Param("id")
+	id := c.QueryParam("id")
 
 	// Getting the ID from the request
-	filter := bson.D{{Key: "_id", Value: id}}
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Errorf("Error while converting the id to object id: %v", err)
+		return c.JSON(http.StatusBadRequest, "Invalid id.")
+	}
+	filter := bson.D{{Key: "_id", Value: objectId}}
 
 	// Update all filter
 	update := bson.D{
 		{Key: "$set", Value: bson.D{
-			{Key: "id", Value: id},
 			{Key: "updated_at", Value: time.Now()},
 			{Key: "output_type", Value: trancoder.OutputType},
 			{Key: "input_type", Value: trancoder.InputType},
 			{Key: "template_command", Value: trancoder.TemplateCommand},
 			{Key: "updated_by", Value: trancoder.UpdatedBy},
+			{Key: "status", Value: trancoder.Status},
 		}},
 	}
 
@@ -51,9 +57,11 @@ func (h *TranscoderHandler) putTranscoder(c echo.Context) error {
 	opts := options.Update().SetUpsert(false)
 
 	// Updating the request payload to the database
-	if _, err := h.Col.UpdateOne(context.Background(), filter, update, opts); err != nil {
+	if r, err := h.Col.UpdateOne(context.Background(), filter, update, opts); err != nil {
 		log.Errorf("Error while updating the request: %v", err)
 		return c.JSON(http.StatusInternalServerError, "Unable to process the request.")
+	} else if r.MatchedCount == 0 {
+		return c.JSON(http.StatusNotFound, "Transcoder not found with the given id.")
 	}
 
 	// Returning the response
