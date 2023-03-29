@@ -14,6 +14,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/labstack/echo-contrib/prometheus"
+	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
@@ -113,9 +114,9 @@ func main() {
 	e.Logger.SetLevel(log.INFO)
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Pre(addCorrelationID)
-	// jwtMiddleware := echojwt.WithConfig(echojwt.Config{
-	// 	SigningKey:  []byte(cfg.JwtTokenSecret),
-	// 	TokenLookup: "header:Authorization"})
+	jwtMiddleware := echojwt.WithConfig(echojwt.Config{
+		SigningKey:  []byte(cfg.JwtTokenSecret),
+		TokenLookup: "header:Authorization"})
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{Format: `{"time":"${time_rfc3339_nano}","remote_ip":"${remote_ip}",` +
 		`"request_ID":"${header:x-Request-ID}"+"host":"${host}","method":"${method}","uri":"${uri}","user_agent":"${user_agent}",` +
 		`"status":${status},"error":"${error}","latency_human":"${latency_human}"` +
@@ -130,10 +131,11 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Welcome to transcoders API")
 	})
-	e.POST("/transcoders", ch.AddTranscoder, middleware.BodyLimit("1M"))
-	e.PUT("/transcoders", ch.PutTranscoder, middleware.BodyLimit("1M"))
-	e.PATCH("/transcoders", ch.PatchTranscoder, middleware.BodyLimit("1M"))
-	e.GET("/transcoders", ch.GetTranscoders)
+	e.POST("/transcoders", ch.AddTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
+	e.PUT("/transcoders", ch.PutTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
+	e.PATCH("/transcoders", ch.PatchTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
+	e.GET("/transcoders", ch.GetTranscoders, jwtMiddleware)
+	e.DELETE("/transcoders", ch.DeleteTranscoder)
 	// e.PUT("/platforms", ch.UpdatePlatform, middleware.BodyLimit("1M"), jwtMiddleware)
 	// e.PATCH("/platforms/:id", ch.PatchPlatform, middleware.BodyLimit("1M"), jwtMiddleware)
 	// e.POST("/platforms", ch.AddPlatforms, middleware.BodyLimit("1M"), jwtMiddleware)
