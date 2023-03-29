@@ -19,15 +19,13 @@ const (
 	Inactive StatusType = "inactive"
 )
 
-type InputAndOutputType string
-
-const (
-	MP4  InputAndOutputType = "mp4"
-	HLS  InputAndOutputType = "hls"
-	MOV  InputAndOutputType = "mov"
-	TS   InputAndOutputType = "ts"
-	DASH InputAndOutputType = "dash"
-)
+var acceptedInputAndOutputTypes = map[string]bool{
+	"mp4":  true,
+	"hls":  true,
+	"mov":  true,
+	"ts":   true,
+	"dash": true,
+}
 
 type Transcoder struct {
 
