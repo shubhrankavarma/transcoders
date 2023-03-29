@@ -15,17 +15,17 @@ import (
 func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 
 	// Variable to hold the request payload
-	var trancoder Transcoder
+	var transcoder Transcoder
 
 	// Binding the request payload to the variable
 	c.Echo().Validator = &TranscoderValidator{validator: v}
-	if err := c.Bind(&trancoder); err != nil {
+	if err := c.Bind(&transcoder); err != nil {
 		log.Errorf("Error while binding the request: %v", err)
 		return c.JSON(http.StatusUnprocessableEntity, "Unable to pass the request payload.")
 	}
 
 	// Validating the request payload
-	if err := c.Validate(trancoder); err != nil {
+	if err := c.Validate(transcoder); err != nil {
 		log.Errorf("Error while validating the request: %v", err)
 		return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 	}
@@ -45,11 +45,11 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 	update := bson.D{
 		{Key: "$set", Value: bson.D{
 			{Key: "updated_at", Value: time.Now()},
-			{Key: "output_type", Value: trancoder.OutputType},
-			{Key: "input_type", Value: trancoder.InputType},
-			{Key: "template_command", Value: trancoder.TemplateCommand},
-			{Key: "updated_by", Value: trancoder.UpdatedBy},
-			{Key: "status", Value: trancoder.Status},
+			{Key: "output_type", Value: transcoder.OutputType},
+			{Key: "input_type", Value: transcoder.InputType},
+			{Key: "template_command", Value: transcoder.TemplateCommand},
+			{Key: "updated_by", Value: transcoder.UpdatedBy},
+			{Key: "status", Value: transcoder.Status},
 		}},
 	}
 

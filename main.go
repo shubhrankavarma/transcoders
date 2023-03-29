@@ -132,6 +132,7 @@ func main() {
 	})
 	e.POST("/transcoders", ch.AddTranscoder, middleware.BodyLimit("1M"))
 	e.PUT("/transcoders", ch.PutTranscoder, middleware.BodyLimit("1M"))
+	e.PATCH("/transcoders", ch.PatchTranscoder, middleware.BodyLimit("1M"))
 	// e.PUT("/platforms", ch.UpdatePlatform, middleware.BodyLimit("1M"), jwtMiddleware)
 	// e.PATCH("/platforms/:id", ch.PatchPlatform, middleware.BodyLimit("1M"), jwtMiddleware)
 	// e.POST("/platforms", ch.AddPlatforms, middleware.BodyLimit("1M"), jwtMiddleware)
