@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -38,7 +37,7 @@ func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 	// Checking if the transcoder already exists
 	res := h.Col.FindOne(context.Background(), filter)
 	if res.Err() == nil {
-		return c.JSON(http.StatusConflict, fmt.Sprintf("Transcoder with the same output type and input type already exists."))
+		return c.JSON(http.StatusConflict, "Transcoder with the same output type and input type already exists.")
 	}
 
 	// Add created_at and updated_at

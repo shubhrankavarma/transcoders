@@ -14,6 +14,16 @@ import (
 
 func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 
+	// Getting the ID from the request
+	id := c.QueryParam("id")
+
+	// Check if the id is present in the query params
+	if id == "" {
+		log.Error("Please provide id in query parameter.")
+		return c.JSON(http.StatusBadRequest, "Please provide id in query parameter.")
+	}
+
+	log.Infof("Updating the transcoder with id: %v", id)
 	// Variable to hold the request payload
 	var transcoder Transcoder
 
@@ -29,9 +39,6 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 		log.Errorf("Error while validating the request: %v", err)
 		return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 	}
-
-	// Getting the ID from the request
-	id := c.QueryParam("id")
 
 	// Getting the ID from the request
 	objectId, err := primitive.ObjectIDFromHex(id)

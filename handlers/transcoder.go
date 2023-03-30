@@ -38,7 +38,7 @@ type Transcoder struct {
 	// Types of input and output
 	OutputType string     `json:"output_type" bson:"output_type" validate:"required"`
 	InputType  string     `json:"input_type" bson:"input_type" validate:"required"`
-	Status     StatusType `json:"status" bson:"status"`
+	Status     StatusType `json:"status" bson:"status" validate:"required"`
 
 	// Default Value is "Comming Soon"
 	TemplateCommand string `json:"template_command" bson:"template_command" validate:"required"`

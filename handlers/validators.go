@@ -22,11 +22,14 @@ func checkOutputInputType(tp string) bool {
 }
 
 func (tv *TranscoderValidator) Validate(i interface{}) error {
-	if checkOutputInputType(i.(Transcoder).OutputType) == false {
-		return errors.New("Invalid output type")
+	if !checkOutputInputType(i.(Transcoder).OutputType) {
+		return errors.New("invalid output type")
 	}
-	if checkOutputInputType(i.(Transcoder).InputType) == false {
-		return errors.New("Invalid input type")
+	if !checkOutputInputType(i.(Transcoder).InputType) {
+		return errors.New("invalid input type")
+	}
+	if i.(Transcoder).InputType == i.(Transcoder).OutputType {
+		return errors.New("input and output types cannot be same")
 	}
 	return tv.validator.Struct(i)
 }

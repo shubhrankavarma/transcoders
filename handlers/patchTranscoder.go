@@ -29,7 +29,7 @@ func makeGoStructKey(key string) string {
 
 	newKey := strings.Join(charArray, "")
 
-	// Remove underscore from the key
+	// return cases.ToCamel(strings.ReplaceAll(newKey, "_", ""))
 	return strings.Title(strings.ReplaceAll(newKey, "_", ""))
 }
 
@@ -57,7 +57,7 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	// Check if the request payload has any invalid key
 	t := reflect.TypeOf(transcoder)
 	for key := range payload {
-		if _, found := t.FieldByName(makeGoStructKey(key)); found == false {
+		if _, found := t.FieldByName(makeGoStructKey(key)); !found {
 			return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 		}
 	}
