@@ -14,6 +14,6 @@ import (
 // @Success 200 {object} string "OK"
 // @Failure 500 {object} string "Internal Server Error"
 // @Router / [get]
-func (h *Transcoder) Healthz(c echo.Context) error {
+func (h *TranscoderHandler) Healthz(c echo.Context) error {
 	return c.JSON(http.StatusOK, "Welcome to Platforms Service")
 }

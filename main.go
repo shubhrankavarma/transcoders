@@ -21,6 +21,8 @@ import (
 	"github.com/labstack/gommon/random"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/swaggo/echo-swagger" // echo-swagger middleware
 )
 
 const (
@@ -31,8 +33,7 @@ var (
 	c                     *mongo.Client
 	db                    *mongo.Database
 	transcodersCollection *mongo.Collection
-
-	cfg config.Properties
+	cfg                   config.Properties
 )
 
 // addCorrelationID is a custom middleware function.
@@ -126,21 +127,13 @@ func main() {
 	p := prometheus.NewPrometheus("echo", nil)
 	p.Use(e)
 
-	// e.GET("/swagger/*", echoSwagger.WrapHandler)
-	// e.GET("/", ch.Healthz)
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Welcome to transcoders API")
-	})
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/", ch.Healthz)
 	e.POST("/transcoders", ch.AddTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
 	e.PUT("/transcoders", ch.PutTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
 	e.PATCH("/transcoders", ch.PatchTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
 	e.GET("/transcoders", ch.GetTranscoders, jwtMiddleware)
-	e.DELETE("/transcoders", ch.DeleteTranscoder)
-	// e.PUT("/platforms", ch.UpdatePlatform, middleware.BodyLimit("1M"), jwtMiddleware)
-	// e.PATCH("/platforms/:id", ch.PatchPlatform, middleware.BodyLimit("1M"), jwtMiddleware)
-	// e.POST("/platforms", ch.AddPlatforms, middleware.BodyLimit("1M"), jwtMiddleware)
-	// e.GET("/platforms", ch.ListPlatforms, jwtMiddleware)
-	// e.DELETE("/platforms/:id", ch.DeletePlatform, jwtMiddleware, adminMiddleware)
+	e.DELETE("/transcoders", ch.DeleteTranscoder, jwtMiddleware, adminMiddleware)
 
 	e.Logger.Infof("listening for requests on %s:%s", cfg.Host, cfg.Port)
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)))
