@@ -17,7 +17,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, "/transcoders", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -31,7 +31,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, "/transcoders?output_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -45,7 +45,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -63,7 +63,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -81,7 +81,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=dash&output_type=mp4", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -99,7 +99,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=dash&output_type=hls", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol

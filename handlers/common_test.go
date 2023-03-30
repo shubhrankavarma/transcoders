@@ -18,6 +18,7 @@ var (
 	// col           *mongo.Collection
 	transcoderCol *mongo.Collection
 	cfg           config.Properties
+	jwtToken      string
 )
 
 func init() {
@@ -33,6 +34,8 @@ func init() {
 	db = c.Database(cfg.DBName)
 	transcoderCol = db.Collection(cfg.TranscodersCollection + "_test")
 
+	// STORE ONLY FOR TESTING
+	jwtToken = os.Getenv("JWT_TOKEN")
 }
 
 func TestMain(m *testing.M) {

@@ -16,7 +16,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=dash&input_type=mp4", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -29,7 +29,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		e := echo.New()
 		req := httptest.NewRequest(http.MethodDelete, "/transcoders", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -42,7 +42,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		e := echo.New()
 		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=dash&input_type=mp4", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}

@@ -26,7 +26,7 @@ func TestPutTranscoder(t *testing.T) {
 		`
 		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -49,7 +49,7 @@ func TestPutTranscoder(t *testing.T) {
 		`
 		req := httptest.NewRequest(http.MethodPut, "/transcoders", strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -71,7 +71,7 @@ func TestPutTranscoder(t *testing.T) {
 		`
 		req := httptest.NewRequest(http.MethodPut, "/transcoders/id="+transcoder.ID.Hex(), strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -93,7 +93,7 @@ func TestPutTranscoder(t *testing.T) {
 		`
 		req := httptest.NewRequest(http.MethodPut, "/transcoders?id="+transcoder.ID.Hex(), strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -115,7 +115,7 @@ func TestPutTranscoder(t *testing.T) {
 		`
 		req := httptest.NewRequest(http.MethodPut, "/transcoders?id="+transcoder.ID.Hex(), strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}

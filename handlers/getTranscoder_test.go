@@ -17,7 +17,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/transcoders", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -31,7 +31,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/transcoders?limit=1", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -51,7 +51,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/transcoders?limit=2", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -71,7 +71,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/transcoders?input_type=dash", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -91,7 +91,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/transcoders?output_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -111,7 +111,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/transcoders?input_type=dash&output_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		
+		req.Header.Set("Authorization", jwtToken)
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
