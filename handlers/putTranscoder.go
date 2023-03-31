@@ -12,6 +12,19 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// PutTranscoder is a handler function to update the transcoder
+// @Summary Update the transcoder
+// @Description Update the transcoder
+// @host localhost:51000
+// @BasePath /
+// @Router /transcoder [put]
+// @schemes http
+// @Param id query string true "id" required=true
+// @Success 200 {object} string "Transcoder updated successfully."
+// @Failure 400 {object} string "Please provide id in query parameter." example:"Please provide id in query parameter."
+// @Failure 404 {object} string "Transcoder not found." example:"Transcoder not found."
+// @Failure 500 {object} string "Unable to update the transcoder." example:"Unable to update the transcoder."
+// @Failure 422 {object} string "Unable to pass the request payload." example:"Unable to pass the request payload."
 func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 
 	// Getting the ID from the request
