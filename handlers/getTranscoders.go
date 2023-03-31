@@ -10,6 +10,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// @description Get all the transcoders
+// @host localhost:51000
+// @Accept */*
+// @Produce application/json
+// @Param input_type query string false "input_type"
+// @Param output_type query string false "output_type"
+// @Success 200 {object} []Transcoder "OK"
+// @Failure 500 {object} string "Internal Server Error"
+// @Failure 400 {object} string "Invalid limit or skip."
+// @Router /transcoder [get]
 func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	// Check if the request has a query parameter

@@ -15,8 +15,8 @@ import (
 // @Router /transcoder [delete]
 // @schemes http
 // @Param Authorization header string true "JWT Token"
-// @Param input query string true "input_type" required=true
-// @Param input query string true "output_type" required=true
+// @Param input_type query string true "input_type" required=true
+// @Param output_type query string true "output_type" required=true
 // @Accept application/json
 // @Produce application/json
 // @Success 200 {object} string "Transcoder Delted successfully."
