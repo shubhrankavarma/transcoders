@@ -12,7 +12,7 @@ import (
 // @description Delete a transcoder
 // @host localhost:51000
 // @BasePath /
-// @Router /transcoder [delete]
+// @Router /transcoders [delete]
 // @schemes http
 // @Param Authorization header string true "JWT Token"
 // @Param input_type query string true "input_type" required=true

@@ -17,7 +17,7 @@ import (
 // @Description Update the transcoder
 // @host localhost:51000
 // @BasePath /
-// @Router /transcoder [put]
+// @Router /transcoders [put]
 // @schemes http
 // @Param id query string true "id" required=true
 // @Success 200 {object} string "Transcoder updated successfully."

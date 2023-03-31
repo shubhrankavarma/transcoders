@@ -19,7 +19,7 @@ import (
 // @Success 200 {object} []Transcoder "OK"
 // @Failure 500 {object} string "Internal Server Error"
 // @Failure 400 {object} string "Invalid limit or skip."
-// @Router /transcoder [get]
+// @Router /transcoders [get]
 func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	// Check if the request has a query parameter

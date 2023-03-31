@@ -37,7 +37,7 @@ func makeGoStructKey(key string) string {
 // @description Update a transcoder
 // @host localhost:51000
 // @BasePath /
-// @Router /transcoder [patch]
+// @Router /transcoders [patch]
 // @schemes http
 // @Param input_type query string true "input_type" required=true
 // @Param output_type query string true "output_type" required=true
