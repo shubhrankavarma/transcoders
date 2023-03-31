@@ -10,10 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-type response struct {
-	Value string `example:"Transcoder added successfully."`
-}
-
 // AddTranscoder is a post transcoder API
 // @title Add Transcoder API
 // @description Adds the transcoder to the database
@@ -25,7 +21,7 @@ type response struct {
 // @Param input body Transcoder true "Transcoder" required=true
 // @Accept application/json
 // @Produce application/json
-// @Success 201 {object} response "Transcoder added successfully."
+// @Success 201 {object} string "Transcoder added successfully."
 // @Failure 400 {object} string "Invalid request payload." example:"Invalid request payload."
 // @Failure 409 {object} string "Transcoder with the same output type and input type already exists." example:"Transcoder with the same output type and input type already exists."
 // @Failure 422 {object} string "Unable to pass the request payload." example:"Unable to pass the request payload."

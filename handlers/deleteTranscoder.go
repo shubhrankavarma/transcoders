@@ -8,6 +8,21 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// DeleteTranscoder is a handler to delete a transcoder
+// @description Delete a transcoder
+// @host localhost:51000
+// @BasePath /
+// @Router /transcoder [delete]
+// @schemes http
+// @Param Authorization header string true "JWT Token"
+// @Param input query string true "input_type" required=true
+// @Param input query string true "output_type" required=true
+// @Accept application/json
+// @Produce application/json
+// @Success 200 {object} string "Transcoder Delted successfully."
+// @Failure 400 {object} string "Please provide output_type and input_type in query parameter." example:"Please provide output_type and input_type in query parameter."
+// @Failure 404 {object} string "Transcoder not found." example:"Transcoder not found."
+// @Failure 500 {object} string "Unable to delete the transcoder." example:"Unable to delete the transcoder."
 func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 
 	// OutputType and InputType from the query params
