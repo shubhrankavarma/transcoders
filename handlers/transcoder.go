@@ -30,16 +30,16 @@ var acceptedInputAndOutputTypes = map[string]bool{
 type Transcoder struct {
 
 	// To be used as a primary key and mandatory field
-	ID        primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-	UpdatedAt time.Time          `json:"updated_at" bson:"updated_at"`
-	CreatedAt time.Time          `json:"created_at" bson:"created_at"`
-	UpdatedBy string             `json:"updated_by" bson:"updated_by" validate:"required"`
+	ID        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
+	UpdatedAt time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
+	CreatedAt time.Time          `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedBy string             `json:"updated_by,omitempty" bson:"updated_by,omitempty" validate:"required" example:"me"`
 
 	// Types of input and output
-	OutputType string     `json:"output_type" bson:"output_type" validate:"required"`
-	InputType  string     `json:"input_type" bson:"input_type" validate:"required"`
-	Status     StatusType `json:"status" bson:"status" validate:"required"`
+	OutputType string     `json:"output_type,omitempty" bson:"output_type,omitempty" validate:"required" example:"dash"`
+	InputType  string     `json:"input_type,omitempty" bson:"input_type,omitempty" validate:"required" example:"mp4"`
+	Status     StatusType `json:"status,omitempty" bson:"status,omitempty" validate:"required" example:"active"`
 
 	// Default Value is "Comming Soon"
-	TemplateCommand string `json:"template_command" bson:"template_command" validate:"required"`
+	TemplateCommand string `json:"template_command,omitempty" bson:"template_command,omitempty" validate:"required" example:"comming soon"`
 }

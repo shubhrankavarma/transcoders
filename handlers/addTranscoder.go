@@ -10,6 +10,26 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+type response struct {
+	Value string `example:"Transcoder added successfully."`
+}
+
+// AddTranscoder is a post transcoder API
+// @title Add Transcoder API
+// @description Adds the transcoder to the database
+// @host localhost:51000
+// @BasePath /
+// @Router /transcoder [post]
+// @schemes http
+// @Param Authorization header string true "JWT Token"
+// @Param input body Transcoder true "Transcoder" required=true
+// @Accept application/json
+// @Produce application/json
+// @Success 201 {object} response "Transcoder added successfully."
+// @Failure 400 {object} string "Invalid request payload." example:"Invalid request payload."
+// @Failure 409 {object} string "Transcoder with the same output type and input type already exists." example:"Transcoder with the same output type and input type already exists."
+// @Failure 422 {object} string "Unable to pass the request payload." example:"Unable to pass the request payload."
+// @Failure 500 {object} string "Unable to process the request." example:"Unable to process the request."
 func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 
 	// Variable to hold the request payload

@@ -9,8 +9,6 @@ import (
 	"github.com/amagimedia/transcoders/config"
 	"github.com/amagimedia/transcoders/handlers"
 
-	// "github.com/amagimedia/platform_master/config"
-	// _ "github.com/amagimedia/platform_master/docs/platforms"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/labstack/echo-contrib/prometheus"
@@ -22,7 +20,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/swaggo/echo-swagger" // echo-swagger middleware
+	_ "github.com/amagimedia/transcoders/docs"
+	echoSwagger "github.com/swaggo/echo-swagger" // echo-swagger middleware
 )
 
 const (
@@ -101,10 +100,10 @@ func adminMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-//@title Platform Master API
+//@title Transcoders API
 //@version 1.0
-//@description This is a platform master API
-//@host localhost:52000
+//@description This is a transcoders API
+//@host localhost:51000
 //@BasePath /
 //@schemes http
 
