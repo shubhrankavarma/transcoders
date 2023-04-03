@@ -15,5 +15,7 @@ import (
 // @Failure 500 {object} string "Internal Server Error"
 // @Router / [get]
 func (h *TranscoderHandler) Healthz(c echo.Context) error {
-	return c.JSON(http.StatusOK, "Healthy")
+	ip := c.RealIP()
+	return c.JSON(http.StatusOK, "Healthy Running on "+ip)
+
 }

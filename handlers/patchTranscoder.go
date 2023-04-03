@@ -10,6 +10,8 @@ import (
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func makeGoStructKey(key string) string {
@@ -29,8 +31,17 @@ func makeGoStructKey(key string) string {
 
 	newKey := strings.Join(charArray, "")
 
+	// Remove the underscore
+	newKey = strings.ReplaceAll(newKey, "_", "")
+
+	// Caser
+	caser := cases.Caser(cases.Title(language.English))
+
+	// Convert the key to camel case
+	newKey = caser.String(newKey)
+
 	// return cases.ToCamel(strings.ReplaceAll(newKey, "_", ""))
-	return strings.Title(strings.ReplaceAll(newKey, "_", ""))
+	return newKey
 }
 
 // PatchTranscoder is a handler to update a transcoder

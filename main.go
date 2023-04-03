@@ -135,5 +135,7 @@ func main() {
 	e.DELETE("/transcoders", ch.DeleteTranscoder, jwtMiddleware, adminMiddleware)
 
 	e.Logger.Infof("listening for requests on %s:%s", cfg.Host, cfg.Port)
+
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)))
+
 }

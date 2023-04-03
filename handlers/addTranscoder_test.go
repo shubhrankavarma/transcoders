@@ -11,7 +11,11 @@ import (
 )
 
 func TestAddTranscoder(t *testing.T) {
-	t.Run("Transcoder should be added successfully", func(t *testing.T) {
+
+	var successfulStatus string = "Transcoder should be added successfully"
+	var requestEndPoint string = "/transcoders"
+
+	t.Run(successfulStatus, func(t *testing.T) {
 		e := echo.New()
 		body := `
 			{
@@ -22,7 +26,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -33,7 +37,7 @@ func TestAddTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusCreated, rec.Code)
 		assert.NoError(t, err)
 	})
-	t.Run("Transcoder should be added successfully", func(t *testing.T) {
+	t.Run(successfulStatus, func(t *testing.T) {
 		e := echo.New()
 		body := `
 			{
@@ -44,7 +48,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -55,7 +59,7 @@ func TestAddTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusCreated, rec.Code)
 		assert.NoError(t, err)
 	})
-	t.Run("Transcoder should be added successfully", func(t *testing.T) {
+	t.Run(successfulStatus, func(t *testing.T) {
 		e := echo.New()
 		body := `
 			{
@@ -66,7 +70,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -88,7 +92,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -109,7 +113,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -133,7 +137,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -157,7 +161,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -181,7 +185,7 @@ func TestAddTranscoder(t *testing.T) {
 				"updated_by": "me"
 			}
 		`
-		req := httptest.NewRequest(http.MethodPost, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
