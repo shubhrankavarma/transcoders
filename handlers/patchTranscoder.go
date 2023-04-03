@@ -10,8 +10,6 @@ import (
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 func makeGoStructKey(key string) string {
@@ -34,13 +32,7 @@ func makeGoStructKey(key string) string {
 	// Remove the underscore
 	newKey = strings.ReplaceAll(newKey, "_", "")
 
-	// Caser
-	caser := cases.Caser(cases.Title(language.English))
-
-	// Convert the key to camel case
-	newKey = caser.String(newKey)
-
-	// return cases.ToCamel(strings.ReplaceAll(newKey, "_", ""))
+	// Return the new key
 	return newKey
 }
 
@@ -69,6 +61,7 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 
 	// Check if the output type and input type is present in the query params
 	if outputType == "" || inputType == "" {
+		log.Errorf("Please provide output_type and input_type in query parameter.")
 		return c.JSON(http.StatusBadRequest, "Please provide output_type and input_type in query parameter.")
 	}
 
@@ -83,6 +76,7 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	t := reflect.TypeOf(transcoder)
 	for key := range payload {
 		if _, found := t.FieldByName(makeGoStructKey(key)); !found {
+			log.Errorf("Invalid request payload.")
 			return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 		}
 	}
@@ -107,6 +101,7 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 		log.Errorf("Error while updating the document: %v", err)
 		return c.JSON(http.StatusInternalServerError, "Unable to update the document.")
 	} else if updated.MatchedCount == 0 {
+		log.Errorf("No document found with the given output_type and input_type.")
 		return c.JSON(http.StatusNotFound, "No document found with the given output_type and input_type.")
 	}
 

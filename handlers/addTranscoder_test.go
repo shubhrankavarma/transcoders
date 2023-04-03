@@ -81,7 +81,7 @@ func TestAddTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusCreated, rec.Code)
 		assert.NoError(t, err)
 	})
-	t.Run("Transcoder adding should fail - Invalid Key", func(t *testing.T) {
+	t.Run("Transcoder adding should fail - Invalid Template Command", func(t *testing.T) {
 		e := echo.New()
 		body := `
 			{
