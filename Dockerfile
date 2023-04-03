@@ -17,7 +17,15 @@ COPY go.sum .
 RUN go mod download
 
 # copy our application code into the container
-COPY . .
+COPY ./config .
+COPY ./dbiface .
+COPY ./docs .
+COPY ./handlers .
+COPY ./go.mod .
+COPY ./go.sum .
+COPY ./main.go .
+COPY ./.gitignore .
+COPY ./Dockerfile .
 
 # Expose port 51000 to the outside world
 EXPOSE 51000
