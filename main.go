@@ -114,6 +114,10 @@ func main() {
 	e.Logger.SetLevel(log.INFO)
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Pre(addCorrelationID)
+
+	// Routes endpoint
+	requestEndPoint := "/transcoders"
+
 	jwtMiddleware := echojwt.WithConfig(echojwt.Config{
 		SigningKey:  []byte(cfg.JwtTokenSecret),
 		TokenLookup: "header:Authorization"})
@@ -128,11 +132,11 @@ func main() {
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	e.GET("/", ch.Healthz)
-	e.POST("/transcoders", ch.AddTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
-	e.PUT("/transcoders", ch.PutTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
-	e.PATCH("/transcoders", ch.PatchTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
-	e.GET("/transcoders", ch.GetTranscoders, jwtMiddleware)
-	e.DELETE("/transcoders", ch.DeleteTranscoder, jwtMiddleware, adminMiddleware)
+	e.POST(requestEndPoint, ch.AddTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
+	e.PUT(requestEndPoint, ch.PutTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
+	e.PATCH(requestEndPoint, ch.PatchTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
+	e.GET(requestEndPoint, ch.GetTranscoders, jwtMiddleware)
+	e.DELETE(requestEndPoint, ch.DeleteTranscoder, jwtMiddleware, adminMiddleware)
 
 	e.Logger.Infof("listening for requests on %s:%s", cfg.Host, cfg.Port)
 

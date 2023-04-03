@@ -23,8 +23,8 @@ import (
 func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	// Check if the request has a query parameter
-	output_type := c.QueryParam("output_type")
-	input_type := c.QueryParam("input_type")
+	outputType := c.QueryParam("output_type")
+	inputType := c.QueryParam("input_type")
 	limit := c.QueryParam("limit")
 	skip := c.QueryParam("skip")
 
@@ -32,13 +32,13 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	filter := bson.M{}
 
 	// If output_type is present in the query parameter
-	if output_type != "" {
-		filter["output_type"] = output_type
+	if outputType != "" {
+		filter["output_type"] = outputType
 	}
 
 	// If input_type is present in the query parameter
-	if input_type != "" {
-		filter["input_type"] = input_type
+	if inputType != "" {
+		filter["input_type"] = inputType
 	}
 
 	// Array to hold the response
