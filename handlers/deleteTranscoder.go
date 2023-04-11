@@ -41,11 +41,18 @@ func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 		"input_type":  inputType,
 	}
 
-	// Deleting the document from the database
-	if deleted, err := h.Col.DeleteOne(c.Request().Context(), filter); err != nil {
+	// Update - Set the status to inactive
+	update := bson.M{
+		"$set": bson.M{
+			"status": "inactive",
+		},
+	}
+
+	// Deleting the document from the database (updating the status to inactive)
+	if deleted, err := h.Col.UpdateOne(c.Request().Context(), filter, update); err != nil {
 		log.Error("Unable to delete the transcoder.", err)
 		return c.JSON(http.StatusInternalServerError, "Unable to delete the transcoder.")
-	} else if deleted.DeletedCount == 0 {
+	} else if deleted.MatchedCount == 0 {
 		log.Error("Transcoder not found.")
 		return c.JSON(http.StatusNotFound, "Transcoder not found.")
 	}

@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TOD0: Deleting now will chage the status to inactive, but will not delete the transcoder from the database
 func TestDeleteTranscoder(t *testing.T) {
 	t.Run("Transcoder should be deleted successfully", func(t *testing.T) {
 		e := echo.New()

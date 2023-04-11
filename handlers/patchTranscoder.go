@@ -59,6 +59,8 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	outputType := c.QueryParam("output_type")
 	inputType := c.QueryParam("input_type")
 
+	// For query Paramters - Codec, Descripter
+
 	// Check if the output type and input type is present in the query params
 	if outputType == "" || inputType == "" {
 		log.Errorf("Please provide output_type and input_type in query parameter.")

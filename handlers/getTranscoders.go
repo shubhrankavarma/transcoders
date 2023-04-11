@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // @description Get all the transcoders
@@ -25,8 +25,8 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	// Check if the request has a query parameter
 	outputType := c.QueryParam("output_type")
 	inputType := c.QueryParam("input_type")
-	limit := c.QueryParam("limit")
-	skip := c.QueryParam("skip")
+	pageSizeQueryParam := c.QueryParam("page_size")
+	pageQueryParam := c.QueryParam("page")
 
 	// If the request has a query parameter
 	filter := bson.M{}
@@ -41,31 +41,33 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 		filter["input_type"] = inputType
 	}
 
+	// If page is not present in the query parameter
+	page := 1
+	if pageQueryParam == "" {
+		page, err := strconv.Atoi(pageQueryParam)
+		log.Infof("page %v", page)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page.")
+		}
+	}
+
+	// If page_size is not present in the query parameter
+	limit := 10
+	if pageSizeQueryParam != "" {
+		limit, err := strconv.Atoi(pageSizeQueryParam)
+		log.Infof("page_size %v", limit)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page_size.")
+		}
+	}
+
+	// Filter for status active - TODO
+
 	// Array to hold the response
 	var transcoders []Transcoder
 
-	// Options to limit the number of documents returned
-	opts := options.Find()
-	if limit == "" {
-		opts.SetLimit(10)
-	} else {
-		parsedLimit, err := strconv.ParseInt(limit, 10, 64)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, "Invalid limit.")
-		}
-		opts.SetLimit(parsedLimit)
-	}
-
-	// Options to skip the number of documents returned
-	if skip == "" {
-		opts.SetSkip(0)
-	} else {
-		parsedSkip, err := strconv.ParseInt(skip, 10, 64)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, "Invalid skip.")
-		}
-		opts.SetSkip(parsedSkip)
-	}
+	// Creating the options for the query
+	opts := newMongoPaginate(limit, page).getPaginatedOpts()
 
 	// Getting the data from the database
 	if data, err := h.Col.Find(context.Background(), filter, opts); err != nil {

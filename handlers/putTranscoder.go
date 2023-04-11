@@ -8,7 +8,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -27,16 +26,8 @@ import (
 // @Failure 422 {object} string "Unable to pass the request payload." example:"Unable to pass the request payload."
 func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 
-	// Getting the ID from the request
-	id := c.QueryParam("id")
+	// For Filter Paramters - Codec, Descripter
 
-	// Check if the id is present in the query params
-	if id == "" {
-		log.Error("Please provide id in query parameter.")
-		return c.JSON(http.StatusBadRequest, "Please provide id in query parameter.")
-	}
-
-	log.Infof("Updating the transcoder with id: %v", id)
 	// Variable to hold the request payload
 	var transcoder Transcoder
 
@@ -53,13 +44,11 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 	}
 
-	// Getting the ID from the request
-	objectId, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		log.Errorf("Error while converting the id to object id: %v", err)
-		return c.JSON(http.StatusBadRequest, "Invalid id.")
+	// Creating filter with output_type and input_type
+	filter := bson.M{
+		"output_type": transcoder.OutputType,
+		"input_type":  transcoder.InputType,
 	}
-	filter := bson.D{{Key: "_id", Value: objectId}}
 
 	// Update all filter
 	update := bson.D{

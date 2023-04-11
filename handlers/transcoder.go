@@ -25,6 +25,8 @@ var acceptedInputAndOutputTypes = map[string]bool{
 	"mov":  true,
 	"ts":   true,
 	"dash": true,
+	"mxf":  true,
+	"drm":  true,
 }
 
 type Transcoder struct {
@@ -39,6 +41,12 @@ type Transcoder struct {
 	OutputType string     `json:"output_type,omitempty" bson:"output_type,omitempty" validate:"required" example:"dash"`
 	InputType  string     `json:"input_type,omitempty" bson:"input_type,omitempty" validate:"required" example:"mp4"`
 	Status     StatusType `json:"status,omitempty" bson:"status,omitempty" validate:"required" example:"active"`
+
+	// * Fields to added
+	// Codec Field String - Will be used with Input and Output type
+	// MultiAudio Boolean
+	// MultiCaption Boolean
+	// TrackConfiguration interface{}
 
 	// Default Value is "Comming Soon"
 	TemplateCommand string `json:"template_command,omitempty" bson:"template_command,omitempty" validate:"required" example:"comming soon"`
