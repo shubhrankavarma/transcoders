@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func MakeFilterToGetOneDocument(c echo.Context) (primitive.M, error) {
+func MakeFilterUsingQueryParamToGetOneDocument(c echo.Context) (primitive.M, error) {
 
 	// OutputType, InputType, Codec and descriptor from the query params
 	outputType := c.QueryParam("output_type")

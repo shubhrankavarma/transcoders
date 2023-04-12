@@ -60,7 +60,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"some_other_param": "some_other_value"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -78,7 +78,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=dash&output_type=mp4", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -96,7 +96,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=dash&output_type=hls", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=mp4&output_type=hls&codec=h264&descriptor=media_analysis", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

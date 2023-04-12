@@ -49,6 +49,20 @@ func GetDummyData(changeValue map[string]any, changeKey map[string]string) (stri
 
 	}
 
+	for key, value := range changeKey {
+
+		// Check if the key is present in the struct
+		if _, ok := dummyData[key]; ok {
+
+			// Get the value of the key
+			valueOfKey := dummyData[key]
+			// delete the old key
+			delete(dummyData, key)
+			// add the new key
+			dummyData[value] = valueOfKey
+		}
+	}
+
 	if data, err := json.Marshal(dummyData); err == nil {
 		return string(data), nil
 	} else {

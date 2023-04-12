@@ -31,22 +31,12 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	// transcoder Variable
 	var transcoder Transcoder
 
-	// OutputType, InputType, Codec and Descriptor from the query params
-	outputType := c.QueryParam("output_type")
-	inputType := c.QueryParam("input_type")
-	codec := c.QueryParam("codec")
-	descriptor := c.QueryParam("descriptor")
+	// Filter to get the document
+	filter, err := utils.MakeFilterUsingQueryParamToGetOneDocument(c)
 
-	// Check if the output type and input type is present in the query params
-	if outputType == "" || inputType == "" {
-		log.Errorf("Please provide output_type and input_type in query parameter.")
+	if err != nil {
+		log.Error("Please provide output_type, input_type, codec and descriptor in query parameter.")
 		return c.JSON(http.StatusBadRequest, "Please provide output_type and input_type in query parameter.")
-	}
-
-	// Check if codec and descriptor is present in the query params
-	if codec == "" || descriptor == "" {
-		log.Errorf("Please provide codec and descriptor in query parameter.")
-		return c.JSON(http.StatusBadRequest, "Please provide codec and descriptor in query parameter.")
 	}
 
 	// Reading the request payload in a map
@@ -63,14 +53,6 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 			log.Errorf("Invalid request payload.")
 			return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 		}
-	}
-
-	// Filter for the update
-	filter := bson.D{
-		{Key: "output_type", Value: outputType},
-		{Key: "input_type", Value: inputType},
-		{Key: "codec", Value: codec},
-		{Key: "descriptor", Value: descriptor},
 	}
 
 	// Update filter

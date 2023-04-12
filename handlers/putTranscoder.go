@@ -54,8 +54,20 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 	// Options for the update - Not to create a new document if not found
 	opts := options.Update().SetUpsert(false)
 
+	// Marshalling the request payload
+	// transcoderBSON, err := bson.Marshal(transcoder)
+	// if err != nil {
+	// 	log.Errorf("Error while marshalling the request: %v", err)
+	// 	return c.JSON(http.StatusInternalServerError, "Unable to process the request.")
+	// }
+
+	// Update filter
+	update := bson.D{
+		{Key: "$set", Value: transcoder},
+	}
+
 	// Updating the request payload to the database
-	if r, err := h.Col.UpdateOne(context.Background(), filter, transcoder, opts); err != nil {
+	if r, err := h.Col.UpdateOne(context.Background(), filter, update, opts); err != nil {
 		log.Errorf("Error while updating the request: %v", err)
 		return c.JSON(http.StatusInternalServerError, "Unable to process the request.")
 	} else if r.MatchedCount == 0 {

@@ -26,7 +26,7 @@ import (
 // @Failure 500 {object} string "Unable to delete the transcoder." example:"Unable to delete the transcoder."
 func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 
-	filter, err := utils.MakeFilterToGetOneDocument(c)
+	filter, err := utils.MakeFilterUsingQueryParamToGetOneDocument(c)
 
 	if err != nil {
 		log.Error("Please provide output_type, input_type, codec and descriptor in query parameter.")
