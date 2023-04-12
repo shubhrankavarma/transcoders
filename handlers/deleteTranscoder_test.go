@@ -14,7 +14,7 @@ func TestDeleteTranscoder(t *testing.T) {
 	t.Run("Transcoder should be deleted successfully", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=dash&input_type=mp4&codec=h264&descriptor=media_analysis", nil)
+		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=mp4&input_type=hls&codec=h264&descriptor=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

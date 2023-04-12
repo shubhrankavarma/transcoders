@@ -30,8 +30,8 @@ const (
 func getRawJSONString() string {
 	return `{
 		"updated_by":"me",
-		"output_type":"mp4",
 		"input_type":"dash",
+		"output_type":"mp4",
 		"codec":"h264",
 		"multi_audio":true,
 		"multi_caption":false,

@@ -96,7 +96,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=mp4&output_type=hls&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=dash&output_type=mp4&codec=h264&descriptor=media_analysis", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

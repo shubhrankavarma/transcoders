@@ -29,6 +29,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	descriptor := c.QueryParam("descriptor")
 	pageSizeQueryParam := c.QueryParam("page_size")
 	pageQueryParam := c.QueryParam("page")
+	var err error
 
 	// If the request has a query parameter
 	filter := bson.M{}
@@ -55,8 +56,8 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	// If page is not present in the query parameter
 	page := 1
-	if pageQueryParam == "" {
-		page, err := strconv.Atoi(pageQueryParam)
+	if pageQueryParam != "" {
+		page, err = strconv.Atoi(pageQueryParam)
 		log.Infof("page %v", page)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page.")
@@ -66,7 +67,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	// If page_size is not present in the query parameter
 	limit := 10
 	if pageSizeQueryParam != "" {
-		limit, err := strconv.Atoi(pageSizeQueryParam)
+		limit, err = strconv.Atoi(pageSizeQueryParam)
 		log.Infof("page_size %v", limit)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page_size.")
