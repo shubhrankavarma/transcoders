@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -11,41 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func getRawJSONString() string {
-	return `{
-		"updated_by":"me",
-		"output_type":"mp4",
-		"input_type":"dash",
-		"codec":"h264",
-		"multi_audio":true,
-		"multi_caption":false,
-		"descriptor":"media_analysis",
-		"template_command":"coming soon"
-	}`
-}
-
-func getDummyData(changeValue map[string]any, changeKey map[string]string) (string, error) {
-	dummyJsonString := getRawJSONString()
-	var dummyData map[string]any
-	json.Unmarshal([]byte(dummyJsonString), &dummyData)
-
-	for key, value := range changeValue {
-
-		// Check if the key is present in the struct
-		if _, ok := dummyData[key]; ok {
-			dummyData[key] = value
-		}
-
-	}
-
-	if data, err := json.Marshal(dummyData); err == nil {
-		return string(data), nil
-	} else {
-		return "", err
-	}
-
-}
-
 func TestAddTranscoder(t *testing.T) {
 
 	var successfulStatus string = "Transcoder should be added successfully"
@@ -54,7 +18,7 @@ func TestAddTranscoder(t *testing.T) {
 	t.Run(successfulStatus, func(t *testing.T) {
 		e := echo.New()
 		// Convert the body to string
-		body, err := getDummyData(map[string]any{}, map[string]string{})
+		body, err := GetDummyData(map[string]any{}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -71,7 +35,7 @@ func TestAddTranscoder(t *testing.T) {
 
 	t.Run(successfulStatus, func(t *testing.T) {
 		e := echo.New()
-		body, err := getDummyData(map[string]any{"output_type": "hls"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"output_type": "hls"}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -88,7 +52,7 @@ func TestAddTranscoder(t *testing.T) {
 
 	t.Run(successfulStatus, func(t *testing.T) {
 		e := echo.New()
-		body, err := getDummyData(map[string]any{"input_type": "hls"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"input_type": "hls"}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -105,7 +69,7 @@ func TestAddTranscoder(t *testing.T) {
 
 	t.Run("Transcoder adding should fail - Invalid Key - Template Command", func(t *testing.T) {
 		e := echo.New()
-		body, err := getDummyData(map[string]any{}, map[string]string{"template_commnd": "tempte_command"})
+		body, err := GetDummyData(map[string]any{}, map[string]string{"template_commnd": "tempte_command"})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -120,7 +84,7 @@ func TestAddTranscoder(t *testing.T) {
 	})
 	t.Run("Transcoder adding should fail - Invalid input type", func(t *testing.T) {
 		e := echo.New()
-		body, err := getDummyData(map[string]any{"input_type": "mp5"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"input_type": "mp5"}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -138,7 +102,7 @@ func TestAddTranscoder(t *testing.T) {
 	})
 	t.Run("Transcoder adding should fail - Invalid output type", func(t *testing.T) {
 		e := echo.New()
-		body, err := getDummyData(map[string]any{"output_type": "mp5"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"output_type": "mp5"}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -156,7 +120,7 @@ func TestAddTranscoder(t *testing.T) {
 	})
 	t.Run("Transcoder adding should fail - already present", func(t *testing.T) {
 		e := echo.New()
-		body, err := getDummyData(map[string]any{}, map[string]string{})
+		body, err := GetDummyData(map[string]any{}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
@@ -175,7 +139,7 @@ func TestAddTranscoder(t *testing.T) {
 	t.Run("Transcoder adding should fail - input type and output type should not be same", func(t *testing.T) {
 		e := echo.New()
 
-		body, err := getDummyData(map[string]any{"input_type": "mp4", "output_type": "mp4"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"input_type": "mp4", "output_type": "mp4"}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))

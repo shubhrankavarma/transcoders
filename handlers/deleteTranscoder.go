@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/amagimedia/transcoders/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
@@ -25,25 +26,11 @@ import (
 // @Failure 500 {object} string "Unable to delete the transcoder." example:"Unable to delete the transcoder."
 func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 
-	// OutputType, InputType and Codec from the query params
-	outputType := c.QueryParam("output_type")
-	inputType := c.QueryParam("input_type")
-	codec := c.QueryParam("codec")
-	descriptor := c.QueryParam("descriptor")
+	filter, err := utils.MakeFilterToGetOneDocument(c)
 
-	// Check if the output type and input type is present in the query params
-	if outputType == "" || inputType == "" || codec == "" || descriptor == "" {
+	if err != nil {
 		log.Error("Please provide output_type, input_type, codec and descriptor in query parameter.")
 		return c.JSON(http.StatusBadRequest, "Please provide output_type and input_type in query parameter.")
-	}
-
-	// Filter to delete the document
-	filter := bson.M{
-		"output_type": outputType,
-		"input_type":  inputType,
-		"codec":       codec,
-		"descriptor":  descriptor,
-		"status":      Active,
 	}
 
 	// Update - Set the status to inactive

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"testing"
@@ -20,6 +21,41 @@ var (
 	cfg           config.Properties
 	jwtToken      string
 )
+
+func getRawJSONString() string {
+	return `{
+		"updated_by":"me",
+		"output_type":"mp4",
+		"input_type":"dash",
+		"codec":"h264",
+		"multi_audio":true,
+		"multi_caption":false,
+		"descriptor":"media_analysis",
+		"template_command":"coming soon"
+	}`
+}
+
+func GetDummyData(changeValue map[string]any, changeKey map[string]string) (string, error) {
+	dummyJsonString := getRawJSONString()
+	var dummyData map[string]any
+	json.Unmarshal([]byte(dummyJsonString), &dummyData)
+
+	for key, value := range changeValue {
+
+		// Check if the key is present in the struct
+		if _, ok := dummyData[key]; ok {
+			dummyData[key] = value
+		}
+
+	}
+
+	if data, err := json.Marshal(dummyData); err == nil {
+		return string(data), nil
+	} else {
+		return "", err
+	}
+
+}
 
 func init() {
 	if err := cleanenv.ReadEnv(&cfg); err != nil {
