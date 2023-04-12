@@ -16,7 +16,7 @@ import (
 // @Produce application/json
 // @Param input_type query string false "input_type"
 // @Param output_type query string false "output_type"
-// @Success 200 {object} []Transcoder "OK"
+// @Success 200 {object} []Transcoder "OK"github.com/amagi/kafkaConsumer
 // @Failure 500 {object} string "Internal Server Error"
 // @Failure 400 {object} string "Invalid limit or skip."
 // @Router /transcoders [get]
@@ -25,6 +25,8 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	// Check if the request has a query parameter
 	outputType := c.QueryParam("output_type")
 	inputType := c.QueryParam("input_type")
+	codec := c.QueryParam("codec")
+	descriptor := c.QueryParam("descriptor")
 	pageSizeQueryParam := c.QueryParam("page_size")
 	pageQueryParam := c.QueryParam("page")
 
@@ -39,6 +41,16 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	// If input_type is present in the query parameter
 	if inputType != "" {
 		filter["input_type"] = inputType
+	}
+
+	// If codec is present in the query parameter
+	if codec != "" {
+		filter["codec"] = codec
+	}
+
+	// If descriptor is present in the query parameter
+	if descriptor != "" {
+		filter["descriptor"] = descriptor
 	}
 
 	// If page is not present in the query parameter
@@ -60,8 +72,6 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page_size.")
 		}
 	}
-
-	// Filter for status active - TODO
 
 	// Array to hold the response
 	var transcoders []Transcoder

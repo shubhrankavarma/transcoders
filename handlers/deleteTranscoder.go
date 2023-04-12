@@ -25,13 +25,15 @@ import (
 // @Failure 500 {object} string "Unable to delete the transcoder." example:"Unable to delete the transcoder."
 func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 
-	// OutputType and InputType from the query params
+	// OutputType, InputType and Codec from the query params
 	outputType := c.QueryParam("output_type")
 	inputType := c.QueryParam("input_type")
+	codec := c.QueryParam("codec")
+	descriptor := c.QueryParam("descriptor")
 
 	// Check if the output type and input type is present in the query params
-	if outputType == "" || inputType == "" {
-		log.Error("Please provide output_type and input_type in query parameter.")
+	if outputType == "" || inputType == "" || codec == "" || descriptor == "" {
+		log.Error("Please provide output_type, input_type, codec and descriptor in query parameter.")
 		return c.JSON(http.StatusBadRequest, "Please provide output_type and input_type in query parameter.")
 	}
 
@@ -39,6 +41,9 @@ func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 	filter := bson.M{
 		"output_type": outputType,
 		"input_type":  inputType,
+		"codec":       codec,
+		"descriptor":  descriptor,
+		"status":      Active,
 	}
 
 	// Update - Set the status to inactive

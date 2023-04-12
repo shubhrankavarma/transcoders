@@ -4,37 +4,13 @@ import (
 	"encoding/json"
 	"net/http"
 	"reflect"
-	"strings"
 
+	"github.com/amagimedia/transcoders/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-func makeGoStructKey(key string) string {
-
-	// Make character array from the key
-	charArray := strings.Split(key, "")
-
-	// Convert the first character to upper case
-	charArray[0] = strings.ToUpper(charArray[0])
-
-	// Make letter right after underscore to upper case
-	for i := 1; i < len(charArray); i++ {
-		if charArray[i] == "_" {
-			charArray[i+1] = strings.ToUpper(charArray[i+1])
-		}
-	}
-
-	newKey := strings.Join(charArray, "")
-
-	// Remove the underscore
-	newKey = strings.ReplaceAll(newKey, "_", "")
-
-	// Return the new key
-	return newKey
-}
 
 // PatchTranscoder is a handler to update a transcoder
 // @description Update a transcoder
@@ -55,16 +31,22 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	// transcoder Variable
 	var transcoder Transcoder
 
-	// OutputType and InputType from the query params
+	// OutputType, InputType, Codec and Descriptor from the query params
 	outputType := c.QueryParam("output_type")
 	inputType := c.QueryParam("input_type")
-
-	// For query Paramters - Codec, Descripter
+	codec := c.QueryParam("codec")
+	descriptor := c.QueryParam("descriptor")
 
 	// Check if the output type and input type is present in the query params
 	if outputType == "" || inputType == "" {
 		log.Errorf("Please provide output_type and input_type in query parameter.")
 		return c.JSON(http.StatusBadRequest, "Please provide output_type and input_type in query parameter.")
+	}
+
+	// Check if codec and descriptor is present in the query params
+	if codec == "" || descriptor == "" {
+		log.Errorf("Please provide codec and descriptor in query parameter.")
+		return c.JSON(http.StatusBadRequest, "Please provide codec and descriptor in query parameter.")
 	}
 
 	// Reading the request payload in a map
@@ -77,7 +59,7 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	// Check if the request payload has any invalid key
 	t := reflect.TypeOf(transcoder)
 	for key := range payload {
-		if _, found := t.FieldByName(makeGoStructKey(key)); !found {
+		if _, found := t.FieldByName(utils.MakeGoStructKey(key)); !found {
 			log.Errorf("Invalid request payload.")
 			return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 		}
@@ -87,6 +69,8 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 	filter := bson.D{
 		{Key: "output_type", Value: outputType},
 		{Key: "input_type", Value: inputType},
+		{Key: "codec", Value: codec},
+		{Key: "descriptor", Value: descriptor},
 	}
 
 	// Update filter
@@ -95,7 +79,7 @@ func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 		update = append(update, bson.E{Key: "$set", Value: bson.D{{Key: key, Value: val}}})
 	}
 
-	// Options for the update
+	// Options for the update - Not to create a new document if not found
 	opts := options.Update().SetUpsert(false)
 
 	// Update the document

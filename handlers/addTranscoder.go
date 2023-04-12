@@ -44,10 +44,12 @@ func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 	}
 
-	// Check if any transcoder with the same output type and input type exists
+	// Check if any transcoder with the same output type, input type and codec exists
 	filter := bson.M{
 		"output_type": trancoder.OutputType,
 		"input_type":  trancoder.InputType,
+		"codec":       trancoder.Codec,
+		"descriptor":  trancoder.Descriptor,
 	}
 
 	// Checking if the transcoder already exists
@@ -59,6 +61,9 @@ func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 	// Add created_at and updated_at
 	trancoder.CreatedAt = time.Now()
 	trancoder.UpdatedAt = time.Now()
+
+	// Set the status to active
+	trancoder.Status = "active"
 
 	// Inserting the request payload to the database
 	if _, err := h.Col.InsertOne(context.TODO(), trancoder); err != nil {

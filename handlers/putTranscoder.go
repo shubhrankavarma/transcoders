@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
@@ -26,7 +25,7 @@ import (
 // @Failure 422 {object} string "Unable to pass the request payload." example:"Unable to pass the request payload."
 func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 
-	// For Filter Paramters - Codec, Descripter
+	// For Filter Paramters - Codec, Descriptor
 
 	// Variable to hold the request payload
 	var transcoder Transcoder
@@ -48,25 +47,15 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 	filter := bson.M{
 		"output_type": transcoder.OutputType,
 		"input_type":  transcoder.InputType,
+		"codec":       transcoder.Codec,
+		"descriptor":  transcoder.Descriptor,
 	}
 
-	// Update all filter
-	update := bson.D{
-		{Key: "$set", Value: bson.D{
-			{Key: "updated_at", Value: time.Now()},
-			{Key: "output_type", Value: transcoder.OutputType},
-			{Key: "input_type", Value: transcoder.InputType},
-			{Key: "template_command", Value: transcoder.TemplateCommand},
-			{Key: "updated_by", Value: transcoder.UpdatedBy},
-			{Key: "status", Value: transcoder.Status},
-		}},
-	}
-
-	// Options for the update
+	// Options for the update - Not to create a new document if not found
 	opts := options.Update().SetUpsert(false)
 
 	// Updating the request payload to the database
-	if r, err := h.Col.UpdateOne(context.Background(), filter, update, opts); err != nil {
+	if r, err := h.Col.UpdateOne(context.Background(), filter, transcoder, opts); err != nil {
 		log.Errorf("Error while updating the request: %v", err)
 		return c.JSON(http.StatusInternalServerError, "Unable to process the request.")
 	} else if r.MatchedCount == 0 {
