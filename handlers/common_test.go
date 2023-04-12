@@ -22,6 +22,11 @@ var (
 	jwtToken      string
 )
 
+// Request Endpoints
+const (
+	RequestEndPoint = "/transcoders"
+)
+
 func getRawJSONString() string {
 	return `{
 		"updated_by":"me",
@@ -34,7 +39,6 @@ func getRawJSONString() string {
 		"template_command":"coming soon"
 	}`
 }
-
 func GetDummyData(changeValue map[string]any, changeKey map[string]string) (string, error) {
 	dummyJsonString := getRawJSONString()
 	var dummyData map[string]any

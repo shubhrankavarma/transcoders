@@ -19,7 +19,7 @@ func TestPutTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{}, map[string]string{"input_type": "inp"})
 		assert.NoError(t, err)
 		fmt.Println(body)
-		req := httptest.NewRequest(http.MethodPut, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -35,7 +35,7 @@ func TestPutTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{}, map[string]string{"output_type": "ou_put"})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPut, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -67,7 +67,7 @@ func TestPutTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{"input_type": "drm"}, map[string]string{})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPut, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -84,7 +84,7 @@ func TestPutTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{}, map[string]string{})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPut, "/transcoders", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
