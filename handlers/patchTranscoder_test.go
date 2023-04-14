@@ -89,6 +89,42 @@ func TestPatchTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusNotFound, rec.Code)
 		assert.NoError(t, err)
 	})
+
+	t.Run("Transcoder patching should failed, Unable to decode", func(t *testing.T) {
+		e := echo.New()
+
+		body := "some_invalid_body"
+
+		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		rec := httptest.NewRecorder()
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = transcoderCol
+		err := h.PatchTranscoder(c)
+		assert.Equal(t, http.StatusUnprocessableEntity, rec.Code)
+		assert.NoError(t, err)
+	})
+	t.Run("Transcoder patching should failed, Mongo DB error", func(t *testing.T) {
+		e := echo.New()
+
+		body := `{
+			"updated_by": "test_user"
+		}`
+
+		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		rec := httptest.NewRecorder()
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = wrongCol
+		err := h.PatchTranscoder(c)
+		assert.Equal(t, http.StatusInternalServerError, rec.Code)
+		assert.NoError(t, err)
+	})
+
 	t.Run("Transcoder patching should be done successfully", func(t *testing.T) {
 		e := echo.New()
 
