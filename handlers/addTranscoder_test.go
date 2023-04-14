@@ -155,4 +155,25 @@ func TestAddTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 		assert.NoError(t, err)
 	})
+
+	t.Run("Transcoder adding should fail - Mongo DB Error", func(t *testing.T) {
+		e := echo.New()
+
+		body, err := GetDummyData(map[string]any{"input_type": "mp4", "output_type": "hls"}, map[string]string{})
+		assert.NoError(t, err)
+
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = wrongCol
+		err = h.AddTranscoder(c)
+
+		// Should give 400 error code
+		assert.NoError(t, err)
+
+		assert.Equal(t, http.StatusInternalServerError, rec.Code)
+	})
 }

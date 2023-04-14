@@ -75,18 +75,25 @@ func GetDummyData(changeValue map[string]any, changeKey map[string]string) (stri
 
 }
 
+func GetMongoDBCollection(connectURI string) *mongo.Collection {
+
+	c, err := mongo.Connect(context.Background(), options.Client().ApplyURI(connectURI))
+	if err != nil {
+		log.Fatalf("Unable to connect to database : %v", err)
+	}
+	db = c.Database(cfg.DBName)
+	collection := db.Collection(cfg.TranscodersCollection + "_test")
+
+	return collection
+}
+
 func init() {
 	if err := cleanenv.ReadEnv(&cfg); err != nil {
 		log.Fatalf("Configuration cannot be read : %v", err)
 	}
 
 	connectURI := fmt.Sprintf(cfg.DBURL, cfg.DBUser, cfg.DBPass)
-	c, err := mongo.Connect(context.Background(), options.Client().ApplyURI(connectURI))
-	if err != nil {
-		log.Fatalf("Unable to connect to database : %v", err)
-	}
-	db = c.Database(cfg.DBName)
-	transcoderCol = db.Collection(cfg.TranscodersCollection + "_test")
+	transcoderCol = GetMongoDBCollection(connectURI)
 
 	// STORE ONLY FOR TESTING
 	jwtToken = os.Getenv("JWT_TOKEN")
