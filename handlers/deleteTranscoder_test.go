@@ -52,4 +52,18 @@ func TestDeleteTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusNotFound, rec.Code)
 		assert.NoError(t, err)
 	})
+
+	t.Run("Transcoder deletion should fail - MongoDB Fail", func(t *testing.T) {
+		e := echo.New()
+		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=dash&input_type=mp4&codec=h264&descriptor=media_analysis", nil)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = wrongCol
+		err := h.DeleteTranscoder(c)
+		assert.Equal(t, http.StatusInternalServerError, rec.Code)
+		assert.NoError(t, err)
+	})
 }

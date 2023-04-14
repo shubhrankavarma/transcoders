@@ -18,6 +18,7 @@ var (
 	db *mongo.Database
 	// col           *mongo.Collection
 	transcoderCol *mongo.Collection
+	wrongCol      *mongo.Collection
 	cfg           config.Properties
 	jwtToken      string
 )
@@ -94,6 +95,9 @@ func init() {
 
 	connectURI := fmt.Sprintf(cfg.DBURL, cfg.DBUser, cfg.DBPass)
 	transcoderCol = GetMongoDBCollection(connectURI)
+
+	connectURI = fmt.Sprintf(cfg.DBURL, "testwrong", "testwrong")
+	wrongCol = GetMongoDBCollection(connectURI)
 
 	// STORE ONLY FOR TESTING
 	jwtToken = os.Getenv("JWT_TOKEN")

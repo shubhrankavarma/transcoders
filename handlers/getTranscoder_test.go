@@ -169,4 +169,61 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, results[0].Descriptor, "media_analysis")
 	})
 
+	t.Run("Transcoder should be fetched successfully - by page = 2", func(t *testing.T) {
+		e := echo.New()
+
+		req := httptest.NewRequest(http.MethodGet, "/transcoders?page=2", nil)
+		rec := httptest.NewRecorder()
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = transcoderCol
+		err := h.GetTranscoders(c)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusOK, rec.Code)
+	})
+	t.Run("Transcoder fetching failed - wrong page", func(t *testing.T) {
+		e := echo.New()
+
+		req := httptest.NewRequest(http.MethodGet, "/transcoders?page=a", nil)
+		rec := httptest.NewRecorder()
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = transcoderCol
+		err := h.GetTranscoders(c)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusBadRequest, rec.Code)
+	})
+	t.Run("Transcoder fetching failed - wrong limit", func(t *testing.T) {
+		e := echo.New()
+
+		req := httptest.NewRequest(http.MethodGet, "/transcoders?page_size=a", nil)
+		rec := httptest.NewRecorder()
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = transcoderCol
+		err := h.GetTranscoders(c)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusBadRequest, rec.Code)
+	})
+	t.Run("Transcoder fetching failed - Mongo DB error", func(t *testing.T) {
+		e := echo.New()
+
+		req := httptest.NewRequest(http.MethodGet, "/transcoders", nil)
+		rec := httptest.NewRecorder()
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = wrongCol
+		err := h.GetTranscoders(c)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusInternalServerError, rec.Code)
+	})
+
 }
