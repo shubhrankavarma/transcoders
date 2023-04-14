@@ -14,7 +14,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint, nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -28,7 +28,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by page_size 1", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?page_size=1", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=1", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -48,7 +48,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by limit 2", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?page_size=2", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=2", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -68,7 +68,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by input_type", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?input_type=dash", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -88,7 +88,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by output_type", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?output_type=hls", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?output_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -108,7 +108,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by output_type and input_type", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?input_type=dash&output_type=hls", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash&output_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -130,7 +130,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by codec", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?codec=h264", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?codec=h264", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -151,7 +151,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by descriptor", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?descriptor=media_analysis", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?descriptor=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -172,7 +172,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder should be fetched successfully - by page = 2", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?page=2", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page=2", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -186,7 +186,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder fetching failed - wrong page", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?page=a", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page=a", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -200,7 +200,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder fetching failed - wrong limit", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders?page_size=a", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=a", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -214,7 +214,7 @@ func TestGetTranscoder(t *testing.T) {
 	t.Run("Transcoder fetching failed - Mongo DB error", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, "/transcoders", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint, nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

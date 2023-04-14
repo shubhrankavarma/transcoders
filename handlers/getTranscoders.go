@@ -60,6 +60,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 		page, err = strconv.Atoi(pageQueryParam)
 		log.Infof("page %v", page)
 		if err != nil {
+			log.Errorf("Unable to parse the query param page: %v", err)
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page.")
 		}
 	}
@@ -70,6 +71,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 		limit, err = strconv.Atoi(pageSizeQueryParam)
 		log.Infof("page_size %v", limit)
 		if err != nil {
+			log.Errorf("Unable to parse the query param page_size: %v", err)
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page_size.")
 		}
 	}
@@ -82,6 +84,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	// Getting the data from the database
 	if data, err := h.Col.Find(context.Background(), filter, opts); err != nil {
+		log.Errorf("Unable to get the data from the database: %v", err)
 		return c.JSON(http.StatusInternalServerError, "Unable to process the request.")
 	} else {
 		data.All(context.Background(), &transcoders)

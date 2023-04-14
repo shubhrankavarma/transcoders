@@ -11,10 +11,12 @@ import (
 )
 
 func TestPatchTranscoder(t *testing.T) {
+
+	const requestQuery string = "?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis"
 	t.Run("Transcoder patching should failed, Invalid paramters", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders", nil)
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint, nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -28,7 +30,7 @@ func TestPatchTranscoder(t *testing.T) {
 	t.Run("Transcoder patching should failed, no input parameter", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?output_type=hls", nil)
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?output_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -42,7 +44,7 @@ func TestPatchTranscoder(t *testing.T) {
 	t.Run("Transcoder patching should failed, no output parameter", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls", nil)
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?input_type=hls", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -60,7 +62,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"some_other_param": "some_other_value"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -78,7 +80,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -95,7 +97,7 @@ func TestPatchTranscoder(t *testing.T) {
 
 		body := "some_invalid_body"
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -113,7 +115,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -132,7 +134,7 @@ func TestPatchTranscoder(t *testing.T) {
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, "/transcoders?input_type=dash&output_type=mp4&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?input_type=dash&output_type=mp4&codec=h264&descriptor=media_analysis", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

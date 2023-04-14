@@ -11,8 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var transcoder Transcoder
-
 func TestPutTranscoder(t *testing.T) {
 	t.Run("Transcoder putting should fail - No input_type  present", func(t *testing.T) {
 		e := echo.New()
@@ -51,7 +49,7 @@ func TestPutTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{"output_type": "mp4", "input_type": "mp4"}, map[string]string{})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPut, "/transcoders?id="+transcoder.ID.Hex(), strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -77,6 +75,39 @@ func TestPutTranscoder(t *testing.T) {
 		err = h.PutTranscoder(c)
 		assert.NoError(t, err)
 		assert.Equal(t, http.StatusNotFound, rec.Code)
+	})
+
+	t.Run("Transcoder putting should fail - Mongo DB error", func(t *testing.T) {
+		e := echo.New()
+		body, err := GetDummyData(map[string]any{"input_type": "drm"}, map[string]string{})
+		assert.NoError(t, err)
+
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = wrongCol
+		err = h.PutTranscoder(c)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusInternalServerError, rec.Code)
+	})
+
+	t.Run("Transcoder putting should fail - Binding Error", func(t *testing.T) {
+		e := echo.New()
+		body := "some random string"
+
+		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = transcoderCol
+		err := h.PutTranscoder(c)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusUnprocessableEntity, rec.Code)
 	})
 
 	t.Run("Transcoder putting should pass", func(t *testing.T) {

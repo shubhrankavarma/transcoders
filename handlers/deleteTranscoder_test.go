@@ -14,7 +14,7 @@ func TestDeleteTranscoder(t *testing.T) {
 	t.Run("Transcoder should be deleted successfully", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=mp4&input_type=hls&codec=h264&descriptor=media_analysis", nil)
+		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint+"?output_type=mp4&input_type=hls&codec=h264&descriptor=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -28,7 +28,7 @@ func TestDeleteTranscoder(t *testing.T) {
 
 	t.Run("Transcoder deletion should fail - Invalid query param", func(t *testing.T) {
 		e := echo.New()
-		req := httptest.NewRequest(http.MethodDelete, "/transcoders", nil)
+		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint, nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -41,7 +41,7 @@ func TestDeleteTranscoder(t *testing.T) {
 	})
 	t.Run("Transcoder deletion should fail - Transcoder not found", func(t *testing.T) {
 		e := echo.New()
-		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=dash&input_type=mp4&codec=h264&descriptor=media_analysis", nil)
+		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint+"?output_type=dash&input_type=mp4&codec=h264&descriptor=media_analysis", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -55,7 +55,7 @@ func TestDeleteTranscoder(t *testing.T) {
 
 	t.Run("Transcoder deletion should fail - MongoDB Fail", func(t *testing.T) {
 		e := echo.New()
-		req := httptest.NewRequest(http.MethodDelete, "/transcoders?output_type=dash&input_type=mp4&codec=h264&descriptor=media_analysis", nil)
+		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint+"?output_type=dash&input_type=mp4&codec=h264&descriptor=media_analysis", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
