@@ -32,7 +32,7 @@ To run this project, you will need to add the following environment variables to
 
 ### Get all items
 
-```http
+```
   GET /transcoders
 ```
 
@@ -68,12 +68,12 @@ To run this project, you will need to add the following environment variables to
 ````
 
 #### Example URI
-````http
+````
 /transcoders?input_type=hls&output_type=mp4&codec=h264&descriptor=encoding
 ````
 
 #### Example Response
-````http
+````
 [
     {
         "id": "6439161acbd9de137c273cbf",
@@ -100,7 +100,7 @@ To run this project, you will need to add the following environment variables to
 
 ### Add Item
 
-```http
+```
   POST /transcoders
 ```
 
@@ -131,7 +131,7 @@ string
 
 ### Update Item
 
-```http
+```
   PUT /transcoders
 ```
 
@@ -161,7 +161,7 @@ string
 
 ### Modify Item
 
-```http
+```
   PATCH /transcoders
 ```
 |  Query Parameters | Type     | Description                |
@@ -192,7 +192,7 @@ string
 
 ### Delete Item
 
-```http
+```
   DELETE /transcoders
 ```
 
