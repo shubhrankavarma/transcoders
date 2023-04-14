@@ -171,9 +171,29 @@ func TestAddTranscoder(t *testing.T) {
 		h.Col = wrongCol
 		err = h.AddTranscoder(c)
 
-		// Should give 400 error code
 		assert.NoError(t, err)
 
+		// Should give 500 error code
 		assert.Equal(t, http.StatusInternalServerError, rec.Code)
+	})
+
+	t.Run("Transcoder adding should fail - Binding Error", func(t *testing.T) {
+		e := echo.New()
+
+		body := "A test string"
+
+		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		req.Header.Set("Authorization", jwtToken)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		h := &TranscoderHandler{}
+		h.Col = transcoderCol
+		err := h.AddTranscoder(c)
+
+		assert.NoError(t, err)
+
+		// Should give 422 error code
+		assert.Equal(t, http.StatusUnprocessableEntity, rec.Code)
 	})
 }
