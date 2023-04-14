@@ -30,7 +30,7 @@ func (h *TranscoderHandler) DeleteTranscoder(c echo.Context) error {
 
 	if err != nil {
 		log.Error("Please provide output_type, input_type, codec and descriptor in query parameter.")
-		return c.JSON(http.StatusBadRequest, "Please provide output_type and input_type in query parameter.")
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	// Update - Set the status to inactive

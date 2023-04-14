@@ -65,6 +65,9 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 		}
 	}
 
+	// All the transcoders are active
+	filter["status"] = "active"
+
 	// If page_size is not present in the query parameter
 	limit := 10
 	if pageSizeQueryParam != "" {

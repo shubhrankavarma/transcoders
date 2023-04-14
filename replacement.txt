@@ -1,0 +1,2 @@
+GetMongoDBCollection("mongodb+srv://test:test@anakordb.azocimz.mongodb.net/?retryWrites=true&w=majority")==>wrongCol
+req.Header.Set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2ODA2OTEzOTEsInVzZXJfaWQiOiJ0ZXN0MUBnbWFpbC5jb20ifQ.RCRPm9JNGr2deOt3t4fFCc5gASJWzFjk272-1-9DuJI")==>
