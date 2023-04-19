@@ -1,0 +1,254 @@
+basePath: /
+definitions:
+  handlers.StatusType:
+    enum:
+    - active
+    - inactive
+    type: string
+    x-enum-varnames:
+    - Active
+    - Inactive
+  handlers.Transcoder:
+    properties:
+      created_at:
+        type: string
+      id:
+        description: To be used as a primary key and mandatory field
+        type: string
+      input_type:
+        example: mp4
+        type: string
+      output_type:
+        description: Types of input and output
+        example: dash
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/handlers.StatusType'
+        example: active
+      template_command:
+        description: Default Value is "Comming Soon"
+        example: comming soon
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        example: me
+        type: string
+    required:
+    - input_type
+    - output_type
+    - status
+    - template_command
+    - updated_by
+    type: object
+host: localhost:51000
+info:
+  contact: {}
+  description: This is a transcoders API
+  title: Transcoders API
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - '*/*'
+      description: Health check API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+  /transcoders:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a transcoder
+      parameters:
+      - description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: input_type
+        in: query
+        name: input_type
+        required: true
+        type: string
+      - description: output_type
+        in: query
+        name: output_type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transcoder Delted successfully.
+          schema:
+            type: string
+        "400":
+          description: Please provide output_type and input_type in query parameter."
+            example:"Please provide output_type and input_type in query parameter.
+          schema:
+            type: string
+        "404":
+          description: Transcoder not found." example:"Transcoder not found.
+          schema:
+            type: string
+        "500":
+          description: Unable to delete the transcoder." example:"Unable to delete
+            the transcoder.
+          schema:
+            type: string
+    get:
+      consumes:
+      - '*/*'
+      description: Get all the transcoders
+      parameters:
+      - description: input_type
+        in: query
+        name: input_type
+        type: string
+      - description: output_type
+        in: query
+        name: output_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.Transcoder'
+            type: array
+        "400":
+          description: Invalid limit or skip.
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+    patch:
+      description: Update a transcoder
+      parameters:
+      - description: input_type
+        in: query
+        name: input_type
+        required: true
+        type: string
+      - description: output_type
+        in: query
+        name: output_type
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Transcoder updated successfully.
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload." example:"Invalid request payload.
+          schema:
+            type: string
+        "404":
+          description: Transcoder not found." example:"Transcoder not found.
+          schema:
+            type: string
+        "422":
+          description: Unable to pass the request payload." example:"Unable to pass
+            the request payload.
+          schema:
+            type: string
+        "500":
+          description: Unable to update the transcoder." example:"Unable to update
+            the transcoder.
+          schema:
+            type: string
+    post:
+      consumes:
+      - application/json
+      description: Adds the transcoder to the database
+      parameters:
+      - description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Transcoder
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Transcoder'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Transcoder added successfully.
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload." example:"Invalid request payload.
+          schema:
+            type: string
+        "409":
+          description: Transcoder with the same output type and input type already
+            exists." example:"Transcoder with the same output type and input type
+            already exists.
+          schema:
+            type: string
+        "422":
+          description: Unable to pass the request payload." example:"Unable to pass
+            the request payload.
+          schema:
+            type: string
+        "500":
+          description: Unable to process the request." example:"Unable to process
+            the request.
+          schema:
+            type: string
+    put:
+      description: Update the transcoder
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Transcoder updated successfully.
+          schema:
+            type: string
+        "400":
+          description: Please provide id in query parameter." example:"Please provide
+            id in query parameter.
+          schema:
+            type: string
+        "404":
+          description: Transcoder not found." example:"Transcoder not found.
+          schema:
+            type: string
+        "422":
+          description: Unable to pass the request payload." example:"Unable to pass
+            the request payload.
+          schema:
+            type: string
+        "500":
+          description: Unable to update the transcoder." example:"Unable to update
+            the transcoder.
+          schema:
+            type: string
+      summary: Update the transcoder
+schemes:
+- http
+swagger: "2.0"
