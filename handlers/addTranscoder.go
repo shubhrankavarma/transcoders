@@ -59,6 +59,7 @@ func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 	// Checking if the transcoder already exists
 	res := h.Col.FindOne(context.Background(), filter)
 	if res.Err() == nil {
+		log.Error("Transcoder with the same parameters already exists.")
 		return c.JSON(http.StatusConflict, "Transcoder with the same parameters already exists.")
 	}
 

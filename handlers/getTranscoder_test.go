@@ -25,7 +25,9 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 		assert.NoError(t, err)
 	})
+
 	t.Run("Transcoder should be fetched successfully - by page_size 1", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=1", nil)
@@ -46,6 +48,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Len(t, results, 1)
 	})
 	t.Run("Transcoder should be fetched successfully - by limit 2", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=2", nil)
@@ -66,6 +69,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Len(t, results, 2)
 	})
 	t.Run("Transcoder should be fetched successfully - by input_type", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash", nil)
@@ -86,9 +90,10 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, results[0].InputType, "dash")
 	})
 	t.Run("Transcoder should be fetched successfully - by output_type", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?output_type=hls", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?output_type=mp4", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -99,16 +104,17 @@ func TestGetTranscoder(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, rec.Code)
 
-		// Check the output type of the returned array is hls
+		// Check the output type of the returned array is mp4
 		var results []Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
-		assert.Equal(t, results[0].OutputType, "hls")
+		assert.Equal(t, results[0].OutputType, "mp4")
 	})
 	t.Run("Transcoder should be fetched successfully - by output_type and input_type", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash&output_type=hls", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash&output_type=mp4", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -119,39 +125,19 @@ func TestGetTranscoder(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, rec.Code)
 
-		// Check the output type of the returned array is hls and input type is dash
+		// Check the output type of the returned array is mp4 and input type is dash
 		var results []Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
-		assert.Equal(t, results[0].OutputType, "hls")
+		assert.Equal(t, results[0].OutputType, "mp4")
 		assert.Equal(t, results[0].InputType, "dash")
 	})
 
-	t.Run("Transcoder should be fetched successfully - by codec", func(t *testing.T) {
+	t.Run("Transcoder should be fetched successfully - by operation", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?codec=h264", nil)
-		rec := httptest.NewRecorder()
-		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
-		c := e.NewContext(req, rec)
-		h := &TranscoderHandler{}
-		h.Col = transcoderCol
-		err := h.GetTranscoders(c)
-		assert.NoError(t, err)
-		assert.Equal(t, http.StatusOK, rec.Code)
-
-		// Check the output type of the returned array is hls and input type is dash
-		var results []Transcoder
-		err = json.Unmarshal(rec.Body.Bytes(), &results)
-		assert.NoError(t, err)
-		
-	})
-
-	t.Run("Transcoder should be fetched successfully - by descriptor", func(t *testing.T) {
-		e := echo.New()
-
-		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?descriptor=media_analysis", nil)
+		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?operation=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

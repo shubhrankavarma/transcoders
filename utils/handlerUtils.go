@@ -10,18 +10,18 @@ import (
 
 func MakeFilterUsingQueryParamToGetOneDocument(c echo.Context) (primitive.M, error) {
 
-	asset_type := c.QueryParam("asset_type")
+	assetType := c.QueryParam("asset_type")
 	operation := c.QueryParam("operation")
 
 	// Check if the output type and input type is present in the query params
-	if operation == "" || asset_type == "" {
+	if operation == "" || assetType == "" {
 		return nil, errors.New("please provide asset_type and operation in query parameter")
 	}
 
 	// Filter to delete the document
 	filter := bson.M{
-		"asset_type": asset_type,
-		"descriptor": operation,
+		"asset_type": assetType,
+		"operation":  operation,
 	}
 
 	return filter, nil

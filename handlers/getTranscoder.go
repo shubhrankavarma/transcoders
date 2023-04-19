@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-//GetTranscoders is a handler function to get all the transcoders
+// GetTranscoders is a handler function to get all the transcoders
 // @description Get all the transcoders
 // @host localhost:51000
 // @Accept */*
@@ -23,7 +23,6 @@ import (
 func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	filter := make(map[string]interface{})
-	filter["status"] = "active"
 	for k, v := range c.QueryParams() {
 		if k != "page" && k != "page_size" {
 			filter[k] = v[0]
@@ -31,10 +30,20 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	}
 	var err error
 
-	// If page is not present in the query parameter
+	// Getting the page_size and page from the query parameter
 	pageSizeQueryParam := c.QueryParam("page_size")
 	pageQueryParam := c.QueryParam("page")
+
 	page := h.Cfg.PageNo
+	if page == 0 {
+		page = 1
+	}
+	if err != nil {
+		log.Errorf("Unable to parse the query param page: %v", err)
+		return c.JSON(http.StatusBadRequest, "Unable to parse the query param page.")
+	}
+
+	// If page is present in the query parameter
 	if pageQueryParam != "" {
 		page, err = strconv.Atoi(pageQueryParam)
 		log.Infof("page %v", page)
@@ -47,8 +56,11 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	// All the transcoders are active
 	filter["status"] = "active"
 
-	// If page_size is not present in the query parameter
-	limit := h.Cfg.PageSize
+	limit := (h.Cfg.PageSize)
+	if limit == 0 {
+		limit = 15
+	}
+	// If page_size is present in the query parameter
 	if pageSizeQueryParam != "" {
 		limit, err = strconv.Atoi(pageSizeQueryParam)
 		log.Infof("page_size %v", limit)

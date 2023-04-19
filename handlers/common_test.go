@@ -37,7 +37,8 @@ func getRawJSONString() string {
 		"output_type":"mp4",
         "asset_type":"video",
 		"operation":"media_analysis",
-		"template_command":"coming soon"
+		"template_command":"coming soon",
+		"status":"active"
 	}`
 }
 func GetDummyData(changeValue map[string]any, changeKey map[string]string) (string, error) {
@@ -88,6 +89,28 @@ func GetMongoDBCollection(connectURI string) *mongo.Collection {
 	return collection
 }
 
+func seedDataInDB(changeValue map[string]any, changeKey map[string]string) {
+
+	// Dummy data
+	dummyData, err := GetDummyData(changeValue, changeKey)
+	if err != nil {
+		log.Fatalf("Unable to get dummy data : %v", err)
+	}
+	var transcoder Transcoder
+
+	// Unmarshal the dummy data
+	err = json.Unmarshal([]byte(dummyData), &transcoder)
+	if err != nil {
+		log.Fatalf("Unable to unmarshal dummy data : %v", err)
+	}
+
+	// Insert dummy data
+	_, err = transcoderCol.InsertOne(context.Background(), transcoder)
+	if err != nil {
+		log.Fatalf("Unable to insert dummy data : %v", err)
+	}
+}
+
 func init() {
 	if err := cleanenv.ReadEnv(&cfg); err != nil {
 		log.Fatalf("Configuration cannot be read : %v", err)
@@ -101,6 +124,16 @@ func init() {
 
 	// STORE ONLY FOR TESTING
 	jwtToken = os.Getenv("JWT_TOKEN")
+}
+
+func BeforeEach() {
+	// Clear collection
+	transcoderCol.Drop(context.Background())
+
+	// Seed data
+	seedDataInDB(nil, nil)
+	seedDataInDB(map[string]any{"asset_type": "audio"}, nil)
+	// seedDataInDB(map[string]any{"output_type": "hls"}, nil)
 }
 
 func TestMain(m *testing.M) {
