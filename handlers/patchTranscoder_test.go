@@ -12,7 +12,7 @@ import (
 
 func TestPatchTranscoder(t *testing.T) {
 
-	const requestQuery string = "?input_type=hls&output_type=dash&codec=h264&descriptor=media_analysis"
+	const requestQuery string = "?operation=media_analysis&asset_type=video"
 	t.Run("Transcoder patching should failed, Invalid paramters", func(t *testing.T) {
 		e := echo.New()
 
@@ -27,10 +27,10 @@ func TestPatchTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 		assert.NoError(t, err)
 	})
-	t.Run("Transcoder patching should failed, no input parameter", func(t *testing.T) {
+	t.Run("Transcoder patching should failed, no asset_type parameter", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?output_type=hls", nil)
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?operation=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -41,10 +41,10 @@ func TestPatchTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 		assert.NoError(t, err)
 	})
-	t.Run("Transcoder patching should failed, no output parameter", func(t *testing.T) {
+	t.Run("Transcoder patching should failed, no operation parameter", func(t *testing.T) {
 		e := echo.New()
 
-		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?input_type=hls", nil)
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?asset_type=video", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
@@ -93,6 +93,7 @@ func TestPatchTranscoder(t *testing.T) {
 	})
 
 	t.Run("Transcoder patching should failed, Unable to decode", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
 		body := "some_invalid_body"
@@ -128,13 +129,14 @@ func TestPatchTranscoder(t *testing.T) {
 	})
 
 	t.Run("Transcoder patching should be done successfully", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
 		body := `{
 			"updated_by": "test_user"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?input_type=dash&output_type=mp4&codec=h264&descriptor=media_analysis", strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

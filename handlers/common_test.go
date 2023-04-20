@@ -62,8 +62,10 @@ func GetDummyData(changeValue map[string]any, changeKey map[string]string) (stri
 
 			// Get the value of the key
 			valueOfKey := dummyData[key]
+
 			// delete the old key
 			delete(dummyData, key)
+
 			// add the new key
 			dummyData[value] = valueOfKey
 		}

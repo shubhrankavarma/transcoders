@@ -48,12 +48,6 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 		"operation":  transcoder.Operation,
 		"asset_type": transcoder.AssetType,
 	}
-	if transcoder.InputType != "" {
-		filter["input_type"] = transcoder.InputType
-	}
-	if transcoder.OutputType != "" {
-		filter["output_type"] = transcoder.OutputType
-	}
 
 	// Options for the update - Not to create a new document if not found
 	opts := options.Update().SetUpsert(false)
