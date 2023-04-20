@@ -47,7 +47,7 @@ func TestPutTranscoder(t *testing.T) {
 	t.Run("Transcoder putting should fail - Transocder not Found", func(t *testing.T) {
 
 		e := echo.New()
-		body, err := GetDummyData(map[string]any{"input_type": "drm"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"operation": "encoding"}, map[string]string{})
 		assert.NoError(t, err)
 
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))

@@ -38,10 +38,6 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	if page == 0 {
 		page = 1
 	}
-	if err != nil {
-		log.Errorf("Unable to parse the query param page: %v", err)
-		return c.JSON(http.StatusBadRequest, "Unable to parse the query param page.")
-	}
 
 	// If page is present in the query parameter
 	if pageQueryParam != "" {

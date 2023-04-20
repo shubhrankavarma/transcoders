@@ -74,13 +74,14 @@ func TestPatchTranscoder(t *testing.T) {
 		assert.NoError(t, err)
 	})
 	t.Run("Transcoder patching should failed, no transcoder found", func(t *testing.T) {
+		BeforeEach()
 		e := echo.New()
 
 		body := `{
-			"updated_by": "test_user"
+			"operation": "encoding"
 		}`
 
-		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?operation=encoding&asset_type=vedio", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"sync/atomic"
 	"testing"
 
 	"github.com/amagimedia/transcoders/config"
@@ -16,13 +15,13 @@ import (
 )
 
 var (
-	c             *mongo.Client
+	// c             *mongo.Client
 	db            *mongo.Database
 	transcoderCol *mongo.Collection
 	wrongCol      *mongo.Collection
 	cfg           config.Properties
 	jwtToken      string
-	readyz        *atomic.Value
+	// readyz        *atomic.Value
 )
 
 // Request Endpoints
@@ -129,13 +128,13 @@ func init() {
 }
 
 func BeforeEach() {
+
 	// Clear collection
 	transcoderCol.Drop(context.Background())
 
 	// Seed data
 	seedDataInDB(nil, nil)
 	seedDataInDB(map[string]any{"asset_type": "audio"}, nil)
-	// seedDataInDB(map[string]any{"output_type": "hls"}, nil)
 }
 
 func TestMain(m *testing.M) {

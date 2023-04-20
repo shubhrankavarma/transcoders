@@ -12,33 +12,13 @@ import (
 
 func TestAddTranscoder(t *testing.T) {
 
-	var successfulStatus string = "Transcoder should be added successfully"
-	var requestEndPoint string = "/transcoders"
-
-	t.Run("Transcoder should be added successfully 2", func(t *testing.T) {
+	t.Run("Transcoder should be added successfully", func(t *testing.T) {
 		BeforeEach()
 		e := echo.New()
-		body, err := GetDummyData(map[string]any{"asset_type": "audio"}, map[string]string{})
+		body, err := GetDummyData(map[string]any{"asset_type": "caption"}, map[string]string{})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
-		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
-		rec := httptest.NewRecorder()
-		c := e.NewContext(req, rec)
-		h := &TranscoderHandler{}
-		h.Col = transcoderCol
-		err = h.AddTranscoder(c)
-		assert.Equal(t, http.StatusCreated, rec.Code)
-		assert.NoError(t, err)
-	})
-
-	t.Run(successfulStatus, func(t *testing.T) {
-		e := echo.New()
-		body, err := GetDummyData(map[string]any{"input_type": "hls"}, map[string]string{})
-		assert.NoError(t, err)
-
-		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -52,10 +32,10 @@ func TestAddTranscoder(t *testing.T) {
 
 	t.Run("Transcoder adding should fail - Invalid Key - Template Command", func(t *testing.T) {
 		e := echo.New()
-		body, err := GetDummyData(map[string]any{}, map[string]string{"template_commnd": "tempte_command"})
+		body, err := GetDummyData(map[string]any{}, map[string]string{"template_command": "tempte_commnd"})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -64,6 +44,7 @@ func TestAddTranscoder(t *testing.T) {
 		h.Col = transcoderCol
 		err = h.AddTranscoder(c)
 		assert.NoError(t, err)
+		assert.Equal(t, http.StatusBadRequest, rec.Code)
 	})
 	t.Run("Transcoder adding should fail - already present", func(t *testing.T) {
 		BeforeEach()
@@ -71,7 +52,7 @@ func TestAddTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{}, map[string]string{})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -91,7 +72,7 @@ func TestAddTranscoder(t *testing.T) {
 		body, err := GetDummyData(map[string]any{"input_type": "mp4", "output_type": "hls"}, map[string]string{})
 		assert.NoError(t, err)
 
-		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
@@ -111,7 +92,7 @@ func TestAddTranscoder(t *testing.T) {
 
 		body := "A test string"
 
-		req := httptest.NewRequest(http.MethodPost, requestEndPoint, strings.NewReader(body))
+		req := httptest.NewRequest(http.MethodPost, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set("Authorization", jwtToken)
 		rec := httptest.NewRecorder()
