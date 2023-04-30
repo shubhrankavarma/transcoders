@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/amagimedia/transcoders/config"
-	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/amagimedia/transcoders/utils"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -113,10 +113,12 @@ func seedDataInDB(changeValue map[string]any, changeKey map[string]string) {
 }
 
 func init() {
-	if err := cleanenv.ReadEnv(&cfg); err != nil {
-		log.Fatalf("Configuration cannot be read : %v", err)
-	}
+	// if err := cleanenv.ReadEnv(&cfg); err != nil {
+	// 	log.Fatalf("Configuration cannot be read : %v", err)
+	// }
 
+	// Read from hashicorp vault
+	utils.GetHashiCorpVaultValues(&cfg)
 	connectURI := fmt.Sprintf(cfg.DBURL, cfg.DBUser, cfg.DBPass)
 	transcoderCol = GetMongoDBCollection(connectURI)
 
