@@ -9,7 +9,7 @@ import (
 
 	"github.com/amagimedia/transcoders/config"
 	"github.com/amagimedia/transcoders/handlers"
-	"github.com/amagimedia/transcoders/utils"
+	"github.com/ilyakaznacheev/cleanenv"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo-contrib/prometheus"
@@ -59,8 +59,13 @@ func addCorrelationID(next echo.HandlerFunc) echo.HandlerFunc {
 
 func init() {
 
+	// Reading configurations from environment variables
+	if err := cleanenv.ReadEnv(&cfg); err != nil {
+		log.Fatalf("Configuration cannot be read: %v", err)
+	}
+
 	// Reading configurations from HashiCorp Vault
-	utils.GetHashiCorpVaultValues(&cfg)
+	// utils.GetHashiCorpVaultValues(&cfg)
 
 	readyz = &atomic.Value{}
 	readyz.Store(false)
@@ -119,7 +124,9 @@ func main() {
 	e.Pre(addCorrelationID)
 
 	// Routes endpoint
-	requestEndPoint := "/transcoders"
+	basePath := "/command"
+
+	requestEndPoint := basePath + "/commands"
 
 	jwtMiddleware := echojwt.WithConfig(echojwt.Config{
 		SigningKey:  []byte(cfg.JwtTokenSecret),
@@ -133,9 +140,9 @@ func main() {
 	p := prometheus.NewPrometheus("echo", nil)
 	p.Use(e)
 
-	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	e.GET("/", ch.Healthz)
-	e.GET("/readyz", ch.Readyz)
+	e.GET(basePath+"/swagger/*", echoSwagger.WrapHandler)
+	e.GET(basePath+"/healthz", ch.Healthz)
+	e.GET(basePath+"/readyz", ch.Readyz)
 	e.POST(requestEndPoint, ch.AddTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
 	e.PUT(requestEndPoint, ch.PutTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
 	e.PATCH(requestEndPoint, ch.PatchTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)

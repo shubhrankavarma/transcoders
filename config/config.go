@@ -1,7 +1,7 @@
 package config
 
 type Properties struct {
-	Port                  string `hashicorp:"TRANSCODERS_SRV_PORT`
+	Port                  string `env:"TRANSCODERS_SRV_PORT" env-default:"8001" hashicorp:"TRANSCODERS_SRV_PORT"`
 	Host                  string `env:"TRANSCODERS_HOST" env-default:"localhost" hashicorp:"TRANSCODERS_HOST"`
 	DBUser                string `env:"DB_USER" env-default:"Ananth" hashicorp:"DB_USER"`
 	DBPass                string `env:"DB_PASS" env-default:"Ananth1982" hashicorp:"DB_PASS"`

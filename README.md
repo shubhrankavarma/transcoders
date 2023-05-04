@@ -42,10 +42,14 @@ To run this project, you will need to add the following environment variables to
 | :-------- | :------- | :------------------------- |
 | `input_type` | `string` | **(Optional)** Input type of asset |
 | `output_type` | `string` | **(Optional)** Output type of asset |
-| `codec` | `string` | **(Optional)** Codec of asset |
-| `descriptor` | `string` | **(Optional)** What is the command for |
+| `operation` | `string` | **(Optional)** Operation of asset |
+| `descrition` | `string` | **(Optional)** What is the command for |
 | `page_size` | `string` | **(Optional)** Number of asset to list |
 | `page` | `string` | **(Optional)** Page Number |
+| `updated_by` | `string` |  **(Optional)** Updated By |
+| `asset_type` | `string` | **(Optional)** Asset Type of asset |
+| `operation` | `string` | **(Optional)** Operation of asset |
+| `status` | `string` | **(Optional)** Status of asset |
 
 #### Response Type
 ````
@@ -58,11 +62,10 @@ To run this project, you will need to add the following environment variables to
         "output_type": string,
         "input_type": string,
         "status": string,
-        "codec": string,
-        "multi_audio": bool,
-        "multi_caption": bool,
-        "descriptor": string,
-        "template_command": string
+        "description" : string,
+        "asset_type : string,
+        "operation" : string,
+        "template_command": string,
     }
 ]
 ````
@@ -83,10 +86,9 @@ To run this project, you will need to add the following environment variables to
         "output_type": "mp4",
         "input_type": "hls",
         "status": "active",
-        "codec": "h264",
-        "multi_audio": true,
-        "multi_caption": false,
-        "descriptor": "encoding",
+        "description" : "encoding",
+        "asset_type" : "vedio",
+        "operation" : "encoding",
         "template_command": "coming soon"
     }
 ]
@@ -108,14 +110,13 @@ To run this project, you will need to add the following environment variables to
 
 |  Request Data| Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `input_type` | `string` | **(Required)** Input type of asset |
-| `output_type` | `string` | **(Required)** Output type of asset |
-| `codec` | `string` | **(Required)** Codec of asset |
-| `descriptor` | `string` | **(Required)** What is the command for |
+| `input_type` | `string` | **(Optional)** Input type of asset |
+| `output_type` | `string` | **(Optional)** Output type of asset |
+| `description` | `string` | **(Optional)** What is the command for |
 | `updated_by` | `string` | **(Required)** Who has added |
-| `multi_audio` | `bool` | **(Required)** Is Multi Audio |
-| `multi_caption` | `bool` | **(Required)** Is Multi Caption |
-| `template_command` | `string` | **(Required)** The command to transcode |
+| `template_command` | `string` | **(Required)** The command |
+| `operation` | `string` | **(Required)** Operation of asset |
+| `asset_type` | `string` | **(Required)** Asset type of asset |
 
 #### Response Type
 ````
@@ -139,14 +140,13 @@ string
 
 |  Request Data| Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `input_type` | `string` | **(Required)** Input type of asset |
-| `output_type` | `string` | **(Required)** Output type of asset |
-| `codec` | `string` | **(Required)** Codec of asset |
-| `descriptor` | `string` | **(Required)** What is the command for |
+| `input_type` | `string` | **(Optional)** Input type of asset |
+| `output_type` | `string` | **(Optional)** Output type of asset |
+| `description` | `string` | **(Optional)** What is the command for |
 | `updated_by` | `string` | **(Required)** Who has added |
-| `multi_audio` | `bool` | **(Required)** Is Multi Audio |
-| `multi_caption` | `bool` | **(Required)** Is Multi Caption |
-| `template_command` | `string` | **(Required)** The command to transcode |
+| `template_command` | `string` | **(Required)** The command |
+| `operation` | `string` | **(Required)** Operation of asset |
+| `asset_type` | `string` | **(Required)** Asset type of asset |
 
 #### Response Type
 ````
@@ -166,18 +166,19 @@ string
 ```
 |  Query Parameters | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `input_type` | `string` | **(Required)** Input type of asset |
-| `output_type` | `string` | **(Required)** Output type of asset |
-| `codec` | `string` | **(Required)** Codec of asset |
-| `descriptor` | `string` | **(Required)** What is the command for |
+| `asset_type` | `string` | **(Required)** Asset Type of asset |
+| `operation` | `string` | **(Required)** Operation of asset |
 
 
 |  Request Data| Type     | Description                |
 | :-------- | :------- | :------------------------- |
+| `input_type` | `string` | **(Optional)** Input type of asset |
+| `output_type` | `string` | **(Optional)** Output type of asset |
+| `description` | `string` | **(Optional)** What is the command for |
 | `updated_by` | `string` | **(Optional)** Who has added |
-| `multi_audio` | `bool` | **(Optional)** Is Multi Audio |
-| `multi_caption` | `bool` | **(Optional)** Is Multi Caption |
-| `template_command` | `string` | **(Optional)** The command to transcode |
+| `template_command` | `string` | **(Optional)** The command |
+| `operation` | `string` | **(Optional)** Operation of asset |
+| `asset_type` | `string` | **(Optional)** Asset type of asset |
 
 #### Response Type
 ````
@@ -198,12 +199,10 @@ string
 
 
 
-|  Query Prameters| Type     | Description                |
+|  Query Parameters | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `input_type` | `string` | **(Required)** Input type of asset |
-| `output_type` | `string` | **(Required)** Output type of asset |
-| `codec` | `string` | **(Required)** Codec of asset |
-| `descriptor` | `string` | **(Required)** What is the command for |
+| `asset_type` | `string` | **(Required)** Asset Type of asset |
+| `operation` | `string` | **(Required)** Operation of asset |
 
 
 #### Response Type

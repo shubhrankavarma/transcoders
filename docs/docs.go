@@ -66,7 +66,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "OK\"github.com/amagi/kafkaConsumer",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -318,15 +318,22 @@ const docTemplate = `{
         "handlers.Transcoder": {
             "type": "object",
             "required": [
-                "input_type",
-                "output_type",
-                "status",
+                "asset_type",
+                "operation",
                 "template_command",
                 "updated_by"
             ],
             "properties": {
+                "asset_type": {
+                    "type": "string",
+                    "example": "media_analysis"
+                },
                 "created_at": {
                     "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "media_analysis"
                 },
                 "id": {
                     "description": "To be used as a primary key and mandatory field",
@@ -335,6 +342,11 @@ const docTemplate = `{
                 "input_type": {
                     "type": "string",
                     "example": "mp4"
+                },
+                "operation": {
+                    "description": "Operation String - required | examples - Media Analysis, Encoding, Packaging, Processing, Extraction, QC, Sticking, Spliting",
+                    "type": "string",
+                    "example": "media_analysis"
                 },
                 "output_type": {
                     "description": "Types of input and output",
@@ -350,9 +362,9 @@ const docTemplate = `{
                     "example": "active"
                 },
                 "template_command": {
-                    "description": "Default Value is \"Comming Soon\"",
+                    "description": "Default Value is \"Coming Soon\"",
                     "type": "string",
-                    "example": "comming soon"
+                    "example": "coming soon"
                 },
                 "updated_at": {
                     "type": "string"
@@ -376,6 +388,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "This is a transcoders API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
+	LeftDelim:        "{{",
+	RightDelim:       "}}",
 }
 
 func init() {

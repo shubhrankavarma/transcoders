@@ -10,13 +10,24 @@ definitions:
     - Inactive
   handlers.Transcoder:
     properties:
+      asset_type:
+        example: media_analysis
+        type: string
       created_at:
+        type: string
+      description:
+        example: media_analysis
         type: string
       id:
         description: To be used as a primary key and mandatory field
         type: string
       input_type:
         example: mp4
+        type: string
+      operation:
+        description: Operation String - required | examples - Media Analysis, Encoding,
+          Packaging, Processing, Extraction, QC, Sticking, Spliting
+        example: media_analysis
         type: string
       output_type:
         description: Types of input and output
@@ -27,8 +38,8 @@ definitions:
         - $ref: '#/definitions/handlers.StatusType'
         example: active
       template_command:
-        description: Default Value is "Comming Soon"
-        example: comming soon
+        description: Default Value is "Coming Soon"
+        example: coming soon
         type: string
       updated_at:
         type: string
@@ -36,9 +47,8 @@ definitions:
         example: me
         type: string
     required:
-    - input_type
-    - output_type
-    - status
+    - asset_type
+    - operation
     - template_command
     - updated_by
     type: object
@@ -124,7 +134,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: OK"github.com/amagi/kafkaConsumer
           schema:
             items:
               $ref: '#/definitions/handlers.Transcoder'
