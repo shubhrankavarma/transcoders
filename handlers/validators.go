@@ -15,6 +15,27 @@ type TranscoderValidator struct {
 	validator *validator.Validate
 }
 
+func fieldsCheck(fields []string, transcoder Transcoder) error {
+
+	// Check for these params
+	for _, field := range fields {
+
+		// Check for required tag using reflect
+		field, found := reflect.TypeOf(transcoder).FieldByName(field)
+
+		if !found {
+			return errors.New(field.Name + " not found")
+		}
+
+		// If field is null, then return error
+		if reflect.ValueOf(transcoder).FieldByName(field.Name).IsNil() {
+			return errors.New(field.Name + " is required")
+		}
+	}
+
+	return nil
+}
+
 func (tv *TranscoderValidator) Validate(i interface{}) error {
 
 	transcoder := i.(Transcoder)
@@ -26,19 +47,8 @@ func (tv *TranscoderValidator) Validate(i interface{}) error {
 		audioExtractionFields := []string{"AudioCount", "ChannelsOneCount", "ChannelsTwoCount", "ChannelsSixCount", "ChannelsEightCount"}
 
 		// Check for these params
-		for _, field := range audioExtractionFields {
-
-			// Check for required tag using reflect
-			field, found := reflect.TypeOf(transcoder).FieldByName(field)
-
-			if !found {
-				return errors.New(field.Name + " not found")
-			}
-
-			// If field is null, then return error
-			if reflect.ValueOf(transcoder).FieldByName(field.Name).IsNil() {
-				return errors.New(field.Name + " is required")
-			}
+		if err := fieldsCheck(audioExtractionFields, transcoder); err != nil {
+			return err
 		}
 
 	}
@@ -50,19 +60,8 @@ func (tv *TranscoderValidator) Validate(i interface{}) error {
 		videoExtractionFields := []string{"InputScanType", "OutputScanType"}
 
 		// Check for these params
-		for _, field := range videoExtractionFields {
-
-			// Check for required tag using reflect
-			field, found := reflect.TypeOf(transcoder).FieldByName(field)
-
-			if !found {
-				return errors.New(field.Name + " not found")
-			}
-
-			// If field is null, then return error
-			if reflect.ValueOf(transcoder).FieldByName(field.Name).IsNil() {
-				return errors.New(field.Name + " is required")
-			}
+		if err := fieldsCheck(videoExtractionFields, transcoder); err != nil {
+			return err
 		}
 
 	}
