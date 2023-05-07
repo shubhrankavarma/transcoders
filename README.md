@@ -8,21 +8,21 @@ VOD3Transcoders is a microservice to manage transcoders. This service provides s
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`TRANSCODERS_SRV_PORT`  // Port on which the service will run
+`TRANSCODERS_SRV_PORT` (string) // Port on which the service will run
 
-`TRANSCODERS_HOST` // Host on which the service will run 
+`TRANSCODERS_HOST`  (string)// Host on which the service will run 
 
-`DB_USER` // Database user
+`DB_USER` (string)// Database user
 
-`DB_PASS` // Database password
+`DB_PASS` (string)// Database password
 
-`DB_NAME` // database name 
+`DB_NAME` (string)// database name 
 
-`DB_URL` // database url 
+`DB_URL` (string)// database url 
 
-`TRANSCODERS_COLLECTION` // Collection name
+`TRANSCODERS_COLLECTION` (string) // Collection name
 
-`JWT_TOKEN_SECRET` // JWT token secret 
+`JWT_TOKEN_SECRET` (string) // JWT token secret 
 
 
 ## API Reference
@@ -235,7 +235,7 @@ string
 ### Ports Requirements
 
      This service uses the following ports
-     1. 8001 - for the service
+     1. 8007 - for the service
 
 ### Communication requirements
 
@@ -253,7 +253,7 @@ string
         ./vod3customers
     3. To run the service in docker
         docker build -t vod3customers .
-        docker run -p 8001:8001 vod3customers
+        docker run -p 8007:8007 vod3customers
     4. To run the service in docker-compose
         docker-compose up
     5. for local testing please clone the application and run  
@@ -261,13 +261,14 @@ string
    
 ### Liveness and readiness probe
 
-    1. Liveness  and rediness probe is configured to check if the service is running on port 8001
-        http://<host>>:8001/
+    1. Liveness  and rediness probe is configured to check if the service is running on port 8007
+        http://<host>>:8007/commandsvc/healthz
+        http://<host>>:8007/commandsvc/readyz
   
 ### Metrics
 
     Prometheus metrics are exposed on the following endpoint
-    http://<host>>:8001/metrics
+    http://<host>>:8007/metrics
 
 ### Default replicas
 

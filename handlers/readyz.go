@@ -8,9 +8,11 @@ import (
 
 //Readyz is a readiness check API
 //@description Readiness check API
-//@host localhost:8004
 //@Accept */*
-
+//@Produce application/json
+//@Success 200 {object} string "OK"
+//@Failure 503 {object} string "Service Unavailable"
+//@Router /readyz [get]
 func (h *TranscoderHandler) Readyz(c echo.Context) error {
 	if h.IsReady == nil || !h.IsReady.Load().(bool) {
 		log.Errorf("Readyz API called and responded with status code 503")

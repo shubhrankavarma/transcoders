@@ -13,11 +13,7 @@ import (
 // PutTranscoder is a handler function to update the transcoder
 // @Summary Update the transcoder
 // @Description Update the transcoder
-// @host localhost:51000
-// @BasePath /
-// @Router /transcoders [put]
-// @schemes http
-// @Param id query string true "id" required=true
+// @Router /commands [put]
 // @Success 200 {object} string "Transcoder updated successfully."
 // @Failure 400 {object} string "Please provide id in query parameter." example:"Please provide id in query parameter."
 // @Failure 404 {object} string "Transcoder not found." example:"Transcoder not found."

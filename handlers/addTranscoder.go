@@ -13,9 +13,7 @@ import (
 // AddTranscoder is a post transcoder API
 // @title Add Transcoder API
 // @description Adds the transcoder to the database
-// @host localhost:51000
-// @BasePath /
-// @Router /transcoders [post]
+// @Router /commands [post]
 // @schemes http
 // @Param Authorization header string true "JWT Token"
 // @Param input body Transcoder true "Transcoder" required=true

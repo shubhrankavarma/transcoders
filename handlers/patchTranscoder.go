@@ -14,10 +14,7 @@ import (
 
 // PatchTranscoder is a handler to update a transcoder
 // @description Update a transcoder
-// @host localhost:51000
-// @BasePath /
-// @Router /transcoders [patch]
-// @schemes http
+// @Router /commands [patch]
 // @Param input_type query string true "input_type" required=true
 // @Param output_type query string true "output_type" required=true
 // @Success 200 {object} string "Transcoder updated successfully."

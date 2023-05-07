@@ -11,7 +11,6 @@ import (
 
 // GetTranscoders is a handler function to get all the transcoders
 // @description Get all the transcoders
-// @host localhost:51000
 // @Accept */*
 // @Produce application/json
 // @Param input_type query string false "input_type"
@@ -19,7 +18,7 @@ import (
 // @Success 200 {object} []Transcoder "OK"github.com/amagi/kafkaConsumer
 // @Failure 500 {object} string "Internal Server Error"
 // @Failure 400 {object} string "Invalid limit or skip."
-// @Router /transcoders [get]
+// @Router /commands [get]
 func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 
 	filter := make(map[string]interface{})
@@ -34,8 +33,9 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	pageSizeQueryParam := c.QueryParam("page_size")
 	pageQueryParam := c.QueryParam("page")
 
-	page := h.Cfg.PageNo
-	if page == 0 {
+	page, err := strconv.Atoi(h.Cfg.PageNo)
+	if err != nil {
+		log.Warn("invalid page no, defaulting to 1")
 		page = 1
 	}
 
@@ -48,14 +48,17 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page.")
 		}
 	}
+	page = setDefaultPage(page)
 
 	// All the transcoders are active
 	filter["status"] = "active"
 
-	limit := (h.Cfg.PageSize)
-	if limit == 0 {
+	limit, err := strconv.Atoi(h.Cfg.PageSize)
+	if err != nil {
+		log.Warn("invalid page size, defaulting to 15")
 		limit = 15
 	}
+
 	// If page_size is present in the query parameter
 	if pageSizeQueryParam != "" {
 		limit, err = strconv.Atoi(pageSizeQueryParam)
@@ -65,6 +68,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, "Unable to parse the query param page_size.")
 		}
 	}
+	limit = setDefaultPageSize(limit)
 
 	// Array to hold the response
 	var transcoders []Transcoder
@@ -80,4 +84,18 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 		data.All(context.Background(), &transcoders)
 		return c.JSON(http.StatusOK, transcoders)
 	}
+}
+
+func setDefaultPage(page int) int {
+	if page <= 0 {
+		return 1
+	}
+	return page
+}
+
+func setDefaultPageSize(pageSize int) int {
+	if pageSize <= 0 {
+		return 15
+	}
+	return pageSize
 }

@@ -1,4 +1,4 @@
-basePath: /
+basePath: /commandsvc
 definitions:
   handlers.StatusType:
     enum:
@@ -11,8 +11,21 @@ definitions:
   handlers.Transcoder:
     properties:
       asset_type:
-        example: media_analysis
+        example: Audio, Video, Image, Text
         type: string
+      audio_count:
+        description: Audio extraction fields
+        example: 1
+        type: integer
+      channels_one_count:
+        example: 1
+        type: integer
+      channels_six_count:
+        example: 1
+        type: integer
+      channels_two_count:
+        example: 1
+        type: integer
       created_at:
         type: string
       description:
@@ -21,6 +34,10 @@ definitions:
       id:
         description: To be used as a primary key and mandatory field
         type: string
+      input_scan_type:
+        description: Video extraction fields
+        example: progressive
+        type: string
       input_type:
         example: mp4
         type: string
@@ -28,6 +45,9 @@ definitions:
         description: Operation String - required | examples - Media Analysis, Encoding,
           Packaging, Processing, Extraction, QC, Sticking, Spliting
         example: media_analysis
+        type: string
+      output_scan_type:
+        example: interlaced
         type: string
       output_type:
         description: Types of input and output
@@ -52,30 +72,13 @@ definitions:
     - template_command
     - updated_by
     type: object
-host: localhost:51000
 info:
   contact: {}
-  description: This is a transcoders API
+  description: This is a transcoders API server.
   title: Transcoders API
   version: "1.0"
 paths:
-  /:
-    get:
-      consumes:
-      - '*/*'
-      description: Health check API
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema:
-            type: string
-  /transcoders:
+  /commands:
     delete:
       consumes:
       - application/json
@@ -228,12 +231,6 @@ paths:
             type: string
     put:
       description: Update the transcoder
-      parameters:
-      - description: id
-        in: query
-        name: id
-        required: true
-        type: string
       responses:
         "200":
           description: Transcoder updated successfully.
@@ -259,6 +256,38 @@ paths:
           schema:
             type: string
       summary: Update the transcoder
+  /healthz:
+    get:
+      consumes:
+      - '*/*'
+      description: Health check API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+  /readyz:
+    get:
+      consumes:
+      - '*/*'
+      description: Readiness check API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
 schemes:
 - http
 swagger: "2.0"

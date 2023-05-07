@@ -38,7 +38,7 @@ type Transcoder struct {
 	Status     StatusType `json:"status,omitempty" bson:"status,omitempty" example:"active"`
 
 	Description string `json:"description,omitempty" bson:"description,omitempty" example:"media_analysis"`
-	AssetType   string `json:"asset_type,omitempty" bson:"asset_type,omitempty" validate:"required"  example:"media_analysis"`
+	AssetType   string `json:"asset_type,omitempty" bson:"asset_type,omitempty" validate:"required"  example:"Audio, Video, Image, Text"`
 
 	// Operation String - required | examples - Media Analysis, Encoding, Packaging, Processing, Extraction, QC, Sticking, Spliting
 	Operation string `json:"operation,omitempty" bson:"operation,omitempty" validate:"required" example:"media_analysis"`
