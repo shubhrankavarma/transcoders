@@ -1,0 +1,14 @@
+name: vod-3-ci
+on: 
+  release:
+    types:
+     - published
+
+jobs:
+  test-code-and-build:
+    uses: amagimedia/devops_tools/.github/workflows/vod-ci.yaml@vod-team
+    with:
+      ecr-repo-name: ${{ vars.ecr_repo_name }}
+    secrets:
+      PAT: ${{ secrets.PAT }}
+      IAM_ROLE_TO_ASSUME: ${{ secrets.IAM_ROLE_TO_ASSUME }}
