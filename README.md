@@ -117,6 +117,13 @@ To run this project, you will need to add the following environment variables to
 | `template_command` | `string` | **(Required)** The command |
 | `operation` | `string` | **(Required)** Operation of asset |
 | `asset_type` | `string` | **(Required)** Asset type of asset |
+| `audio_count` | `string` | **(Optional)** Number of audio channels only if audio is asset type|
+| `channels_one_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `channels_two_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `channels_six_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `channels_eight_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `input_scan_type` | `string` | **(Optional)** Scan type of input only if asset type is video |
+| `output_scan_type` | `string` | **(Optional)** Scan type of output only if asset type is video |
 
 #### Response Type
 ````
@@ -147,6 +154,13 @@ string
 | `template_command` | `string` | **(Required)** The command |
 | `operation` | `string` | **(Required)** Operation of asset |
 | `asset_type` | `string` | **(Required)** Asset type of asset |
+| `audio_count` | `string` | **(Optional)** Number of audio channels only if audio is asset type|
+| `channels_one_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `channels_two_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `channels_six_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `channels_eight_count` | `string` | **(Optional)** Number of channels only if audio is asset type|
+| `input_scan_type` | `string` | **(Optional)** Scan type of input only if asset type is video |
+| `output_scan_type` | `string` | **(Optional)** Scan type of output only if asset type is video |
 
 #### Response Type
 ````

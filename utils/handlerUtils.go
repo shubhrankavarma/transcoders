@@ -8,20 +8,57 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func MakeFilterUsingQueryParamToGetOneDocument(c echo.Context) (primitive.M, error) {
+var requiredParams []string = []string{"asset_type", "operation"}
 
-	assetType := c.QueryParam("asset_type")
-	operation := c.QueryParam("operation")
+func getParamAndGenerateFilter(c echo.Context, filter *bson.M, params []string) error {
 
-	// Check if the output type and input type is present in the query params
-	if operation == "" || assetType == "" {
-		return nil, errors.New("please provide asset_type and operation in query parameter")
+	for _, param := range params {
+		paramValue := c.QueryParam(param)
+		if paramValue == "" {
+			return errors.New("please provide " + param + " in query parameter")
+		}
+		(*filter)[param] = paramValue
 	}
 
-	// Filter to delete the document
-	filter := bson.M{
-		"asset_type": assetType,
-		"operation":  operation,
+	return nil
+}
+
+func MakeFilterUsingQueryParamToGetOneDocument(c echo.Context) (primitive.M, error) {
+
+	// Filter
+	filter := bson.M{}
+
+	// Get the required query params
+	err := getParamAndGenerateFilter(c, &filter, requiredParams)
+	if err != nil {
+		return nil, err
+	}
+
+	// If asset_type is audio and operation is extraction, then check for these params -
+	// audioCount, channelsOneCount, channelsTwoCount, channelsSixCount, channelsEightCount
+	if filter["asset_type"] == "audio" && filter["operation"] == "extraction" {
+
+		audioExtractionParams := []string{"audio_count", "channels_one_count", "channels_two_count", "channels_six_count", "channels_eight_count"}
+
+		// Update the filter
+		err := getParamAndGenerateFilter(c, &filter, audioExtractionParams)
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
+	// If asset_type is video and operation is extraction, then check for these params -
+	// inputScanType, outputScanType
+	if filter["asset_type"] == "video" && filter["operation"] == "extraction" {
+
+		videoExtractionParams := []string{"input_scan_type", "output_scan_type"}
+
+		// Update the filter
+		err := getParamAndGenerateFilter(c, &filter, videoExtractionParams)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return filter, nil

@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"github.com/amagimedia/transcoders/config"
 	"sync/atomic"
 	"time"
+
+	"github.com/amagimedia/transcoders/config"
 
 	"github.com/amagimedia/transcoders/dbiface"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -41,6 +42,16 @@ type Transcoder struct {
 
 	// Operation String - required | examples - Media Analysis, Encoding, Packaging, Processing, Extraction, QC, Sticking, Spliting
 	Operation string `json:"operation,omitempty" bson:"operation,omitempty" validate:"required" example:"media_analysis"`
+
+	// Audio extraction fields
+	AudioCount       *int `json:"audio_count,omitempty" bson:"audio_count,omitempty" example:"1"`
+	ChannelsOneCount *int `json:"channels_one_count,omitempty" bson:"channels_one_count,omitempty" example:"1"`
+	ChannelsTwoCount *int `json:"channels_two_count,omitempty" bson:"channels_two_count,omitempty" example:"1"`
+	ChannelsSixCount *int `json:"channels_six_count,omitempty" bson:"channels_six_count,omitempty" example:"1"`
+
+	// Video extraction fields
+	InputScanType  *string `json:"input_scan_type,omitempty" bson:"input_scan_type,omitempty" example:"progressive"`
+	OutputScanType *string `json:"output_scan_type,omitempty" bson:"output_scan_type,omitempty" example:"interlaced"`
 
 	// Default Value is "Coming Soon"
 	TemplateCommand string `json:"template_command,omitempty" bson:"template_command,omitempty" validate:"required" example:"coming soon"`
