@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/amagimedia/transcoders/models"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 )
@@ -42,7 +43,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// Check size of the returned array is one
-		var results []Transcoder
+		var results []models.Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
 		assert.Len(t, results, 1)
@@ -63,7 +64,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// Check size of the returned array is two
-		var results []Transcoder
+		var results []models.Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
 		assert.Len(t, results, 2)
@@ -84,7 +85,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// Check the input type of the returned array is dash
-		var results []Transcoder
+		var results []models.Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
 		assert.Equal(t, results[0].InputType, "dash")
@@ -105,7 +106,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// Check the output type of the returned array is mp4
-		var results []Transcoder
+		var results []models.Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
 		assert.Equal(t, results[0].OutputType, "mp4")
@@ -126,7 +127,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// Check the output type of the returned array is mp4 and input type is dash
-		var results []Transcoder
+		var results []models.Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
 		assert.Equal(t, results[0].OutputType, "mp4")
@@ -149,7 +150,7 @@ func TestGetTranscoder(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// Check the output type of the returned array is hls and input type is dash
-		var results []Transcoder
+		var results []models.Transcoder
 		err = json.Unmarshal(rec.Body.Bytes(), &results)
 		assert.NoError(t, err)
 		assert.Equal(t, results[0].Operation, "media_analysis")

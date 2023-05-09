@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/amagimedia/transcoders/models"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -15,7 +16,7 @@ type TranscoderValidator struct {
 	validator *validator.Validate
 }
 
-func fieldsCheck(fields []string, transcoder Transcoder) error {
+func fieldsCheck(fields []string, transcoder models.Transcoder) error {
 
 	// Check for these params
 	for _, field := range fields {
@@ -38,7 +39,7 @@ func fieldsCheck(fields []string, transcoder Transcoder) error {
 
 func (tv *TranscoderValidator) Validate(i interface{}) error {
 
-	transcoder := i.(Transcoder)
+	transcoder := i.(models.Transcoder)
 
 	// If asset_type is audio and operation is extraction, then check for these params -
 	// audioCount, channelsOneCount, channelsTwoCount, channelsSixCount, channelsEightCount

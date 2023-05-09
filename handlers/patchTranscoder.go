@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"reflect"
 
+	"github.com/amagimedia/transcoders/models"
 	"github.com/amagimedia/transcoders/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
@@ -26,7 +27,7 @@ import (
 func (h *TranscoderHandler) PatchTranscoder(c echo.Context) error {
 
 	// transcoder Variable
-	var transcoder Transcoder
+	var transcoder models.Transcoder
 
 	// Filter to get the document
 	filter, err := utils.MakeFilterUsingQueryParamToGetOneDocument(c)

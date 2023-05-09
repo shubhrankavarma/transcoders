@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/amagimedia/transcoders/models"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
@@ -24,7 +25,7 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 	// For Filter Paramters - Codec, Operation
 
 	// Variable to hold the request payload
-	var transcoder Transcoder
+	var transcoder models.Transcoder
 
 	// Binding the request payload to the variable
 	c.Echo().Validator = &TranscoderValidator{validator: v}

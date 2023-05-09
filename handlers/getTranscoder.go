@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/amagimedia/transcoders/models"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 )
@@ -71,7 +72,7 @@ func (h *TranscoderHandler) GetTranscoders(c echo.Context) error {
 	limit = setDefaultPageSize(limit)
 
 	// Array to hold the response
-	var transcoders []Transcoder
+	var transcoders []models.Transcoder
 
 	// Creating the options for the query
 	opts := newMongoPaginate(limit, page).getPaginatedOpts()

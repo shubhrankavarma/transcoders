@@ -5,9 +5,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/amagimedia/transcoders/models"
+	"github.com/amagimedia/transcoders/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 // AddTranscoder is a post transcoder API
@@ -27,7 +28,7 @@ import (
 func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 
 	// Variable to hold the request payload
-	var transcoder Transcoder
+	var transcoder models.Transcoder
 
 	// Binding the request payload to the variable
 	c.Echo().Validator = &TranscoderValidator{validator: v}
@@ -42,17 +43,8 @@ func (h *TranscoderHandler) AddTranscoder(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Invalid request payload.")
 	}
 
-	// Check if any transcoder with the same output type, input type and codec exists
-	filter := bson.M{
-		"operation":  transcoder.Operation,
-		"asset_type": transcoder.AssetType,
-	}
-	if transcoder.InputType != "" {
-		filter["input_type"] = transcoder.InputType
-	}
-	if transcoder.OutputType != "" {
-		filter["output_type"] = transcoder.OutputType
-	}
+	// Check if any transcoder with the same parameters already exists
+	filter := utils.MakeFilterForTranscoderAddition(transcoder)
 
 	// Checking if the transcoder already exists
 	res := h.Col.FindOne(context.Background(), filter)

@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/amagimedia/transcoders/config"
+	"github.com/amagimedia/transcoders/models"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -97,7 +98,7 @@ func seedDataInDB(changeValue map[string]any, changeKey map[string]string) {
 	if err != nil {
 		log.Fatalf("Unable to get dummy data : %v", err)
 	}
-	var transcoder Transcoder
+	var transcoder models.Transcoder
 
 	// Unmarshal the dummy data
 	err = json.Unmarshal([]byte(dummyData), &transcoder)
