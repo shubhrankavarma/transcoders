@@ -45,7 +45,7 @@ func (tv *TranscoderValidator) Validate(i interface{}) error {
 	// audioCount, channelsOneCount, channelsTwoCount, channelsSixCount, channelsEightCount
 	if transcoder.AssetType == "audio" && transcoder.Operation == "extraction" {
 
-		audioExtractionFields := []string{"AudioCount", "ChannelsOneCount", "ChannelsTwoCount", "ChannelsSixCount", "ChannelsEightCount"}
+		audioExtractionFields := []string{"AudioCount", "ChannelsOneCount", "ChannelsTwoCount", "ChannelsSixCount"}
 
 		// Check for these params
 		if err := fieldsCheck(audioExtractionFields, transcoder); err != nil {
