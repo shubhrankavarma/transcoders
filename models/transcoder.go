@@ -34,10 +34,10 @@ type Transcoder struct {
 	Operation string `json:"operation,omitempty" bson:"operation,omitempty" validate:"required" example:"media_analysis"`
 
 	// Audio extraction fields
-	AudioCount       *int `json:"audio_count,omitempty" bson:"audio_count,omitempty" example:"1"`
-	ChannelsOneCount *int `json:"channels_one_count,omitempty" bson:"channels_one_count,omitempty" example:"1"`
-	ChannelsTwoCount *int `json:"channels_two_count,omitempty" bson:"channels_two_count,omitempty" example:"1"`
-	ChannelsSixCount *int `json:"channels_six_count,omitempty" bson:"channels_six_count,omitempty" example:"1"`
+	AudioCount       *string `json:"audio_count,omitempty" bson:"audio_count,omitempty" example:"1"`
+	ChannelsOneCount *string `json:"channels_one_count,omitempty" bson:"channels_one_count,omitempty" example:"1"`
+	ChannelsTwoCount *string `json:"channels_two_count,omitempty" bson:"channels_two_count,omitempty" example:"1"`
+	ChannelsSixCount *string `json:"channels_six_count,omitempty" bson:"channels_six_count,omitempty" example:"1"`
 
 	// Video extraction fields
 	InputScanType  *string `json:"input_scan_type,omitempty" bson:"input_scan_type,omitempty" example:"progressive"`
