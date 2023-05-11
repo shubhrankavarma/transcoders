@@ -49,14 +49,14 @@ func MakeFilterUsingQueryParamToGetOneDocument(c echo.Context) (primitive.M, err
 
 	}
 
-	// If asset_type is video and operation is extraction, then check for these params -
+	// If asset_type is video and operation is muxing, then check for these params -
 	// inputScanType, outputScanType
-	if filter["asset_type"] == "video" && filter["operation"] == "extraction" {
+	if filter["asset_type"] == "video" && filter["operation"] == "muxing" {
 
-		videoExtractionParams := []string{"input_scan_type", "output_scan_type"}
+		videoMuxingParams := []string{"input_scan_type", "output_scan_type"}
 
 		// Update the filter
-		err := getParamAndGenerateFilter(c, &filter, videoExtractionParams)
+		err := getParamAndGenerateFilter(c, &filter, videoMuxingParams)
 		if err != nil {
 			return nil, err
 		}

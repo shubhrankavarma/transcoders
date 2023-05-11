@@ -56,12 +56,12 @@ func (tv *TranscoderValidator) Validate(i interface{}) error {
 
 	// If asset_type is video and operation is extraction, then check for these params -
 	// inputScanType, outputScanType
-	if transcoder.AssetType == "video" && transcoder.Operation == "extraction" {
+	if transcoder.AssetType == "video" && transcoder.Operation == "muxing" {
 
-		videoExtractionFields := []string{"InputScanType", "OutputScanType"}
+		videoMuxingFields := []string{"InputScanType", "OutputScanType"}
 
 		// Check for these params
-		if err := fieldsCheck(videoExtractionFields, transcoder); err != nil {
+		if err := fieldsCheck(videoMuxingFields, transcoder); err != nil {
 			return err
 		}
 

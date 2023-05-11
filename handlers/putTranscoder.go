@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/amagimedia/transcoders/models"
+	"github.com/amagimedia/transcoders/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
@@ -41,10 +42,7 @@ func (h *TranscoderHandler) PutTranscoder(c echo.Context) error {
 	}
 
 	// Creating filter with output_type and input_type
-	filter := bson.M{
-		"operation":  transcoder.Operation,
-		"asset_type": transcoder.AssetType,
-	}
+	filter := utils.MakeFilterForTranscoderAddition(transcoder)
 
 	// Options for the update - Not to create a new document if not found
 	opts := options.Update().SetUpsert(false)
