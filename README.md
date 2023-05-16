@@ -25,14 +25,11 @@ To run this project, you will need to add the following environment variables to
 
 
 ## API Reference
-|  Headers | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Authorization` | `string` | **Required** |
 
 ### Get all items
 
 ```
-  GET /transcoders
+  GET /commandsvc/commands
 ```
 
 
@@ -71,7 +68,7 @@ To run this project, you will need to add the following environment variables to
 
 #### Example URI
 ````
-/transcoders?input_type=hls&output_type=mp4&codec=h264&descriptor=encoding
+/commandsvc/commands?input_type=hls&output_type=mp4&codec=h264&descriptor=encoding
 ````
 
 #### Example Response
@@ -102,7 +99,7 @@ To run this project, you will need to add the following environment variables to
 ### Add Item
 
 ```
-  POST /transcoders
+  POST /commandsvc/commands
 ```
 
 
@@ -139,7 +136,7 @@ string
 ### Update Item
 
 ```
-  PUT /transcoders
+  PUT /commandsvc/commands
 ```
 
 
@@ -175,7 +172,7 @@ string
 ### Modify Item
 
 ```
-  PATCH /transcoders
+  PATCH /commandsvc/commands
 ```
 |  Query Parameters | Type     | Description                |
 | :-------- | :------- | :------------------------- |
@@ -207,7 +204,7 @@ string
 ### Delete Item
 
 ```
-  DELETE /transcoders
+  DELETE /commandsvc/commands
 ```
 
 
