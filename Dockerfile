@@ -37,13 +37,11 @@ FROM scratch
 ARG MY_APP_PORT
 ARG DB_HOST
 ARG DB_PORT
-ARG JWT_TOKEN_SECRET
 
 # environment variables for the application
 ENV MY_APP_PORT=${MY_APP_PORT}
 ENV DB_HOST=${DB_HOST}
 ENV DB_PORT=${DB_PORT}
-ENV JWT_TOKEN_SECRET=${JWT_TOKEN_SECRET}
 
 # copy from stage-1 image
 COPY --from=builder /build/main /
