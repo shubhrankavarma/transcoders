@@ -19,7 +19,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint+"?asset_type=video&operation=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -32,7 +32,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		e := echo.New()
 		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint, nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -45,7 +45,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		e := echo.New()
 		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint+"?asset_type=text&operation=media_analysis", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -59,7 +59,7 @@ func TestDeleteTranscoder(t *testing.T) {
 		e := echo.New()
 		req := httptest.NewRequest(http.MethodDelete, RequestEndPoint+"?asset_type=video&operation=media_analysis", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}

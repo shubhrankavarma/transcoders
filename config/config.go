@@ -10,5 +10,4 @@ type Properties struct {
 	TranscodersCollection string `env:"TRANSCODERS_COLLECTION" env-default:"transcoders" hashicorp:"TRANSCODERS_COLLECTION"`
 	PageNo                string `env:"PAGE_NO" env-default:"1" hashicorp:"PAGE_NO"`
 	PageSize              string `env:"PAGE_SIZE" env-default:"15" hashicorp:"PAGE_SIZE"`
-	JwtTokenSecret        string `env:"JWT_TOKEN_SECRET" env-default:"CheeseCherryDanishCake" hashicorp:"JWT_TOKEN_SECRET"`
 }

@@ -19,7 +19,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint, nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -33,7 +33,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?operation=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -47,7 +47,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?asset_type=video", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -65,7 +65,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -84,7 +84,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+"?operation=encoding&asset_type=vedio", strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -102,7 +102,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -120,7 +120,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = wrongCol
@@ -140,7 +140,7 @@ func TestPatchTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPatch, RequestEndPoint+requestQuery, strings.NewReader(body))
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol

@@ -21,7 +21,6 @@ var (
 	transcoderCol *mongo.Collection
 	wrongCol      *mongo.Collection
 	cfg           config.Properties
-	jwtToken      string
 	// readyz        *atomic.Value
 )
 
@@ -127,7 +126,7 @@ func init() {
 	wrongCol = GetMongoDBCollection(connectURI)
 
 	// STORE ONLY FOR TESTING
-	jwtToken = os.Getenv("JWT_TOKEN")
+	// jwtToken = os.Getenv("JWT_TOKEN")
 }
 
 func BeforeEach() {

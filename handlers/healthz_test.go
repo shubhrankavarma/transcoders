@@ -14,7 +14,7 @@ func TestHealthz(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	rec := httptest.NewRecorder()
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	req.Header.Set("Authorization", jwtToken)
+
 	c := e.NewContext(req, rec)
 	h := &TranscoderHandler{}
 	err := h.Healthz(c)

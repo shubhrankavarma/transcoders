@@ -1,6 +1,6 @@
 basePath: /commandsvc
 definitions:
-  handlers.StatusType:
+  models.StatusType:
     enum:
     - active
     - inactive
@@ -8,24 +8,24 @@ definitions:
     x-enum-varnames:
     - Active
     - Inactive
-  handlers.Transcoder:
+  models.Transcoder:
     properties:
       asset_type:
         example: Audio, Video, Image, Text
         type: string
       audio_count:
         description: Audio extraction fields
-        example: 1
-        type: integer
+        example: "1"
+        type: string
       channels_one_count:
-        example: 1
-        type: integer
+        example: "1"
+        type: string
       channels_six_count:
-        example: 1
-        type: integer
+        example: "1"
+        type: string
       channels_two_count:
-        example: 1
-        type: integer
+        example: "1"
+        type: string
       created_at:
         type: string
       description:
@@ -55,7 +55,7 @@ definitions:
         type: string
       status:
         allOf:
-        - $ref: '#/definitions/handlers.StatusType'
+        - $ref: '#/definitions/models.StatusType'
         example: active
       template_command:
         description: Default Value is "Coming Soon"
@@ -74,8 +74,8 @@ definitions:
     type: object
 info:
   contact: {}
-  description: This is a transcoders API server.
-  title: Transcoders API
+  description: This is a commands API server.
+  title: Commands API
   version: "1.0"
 paths:
   /commands:
@@ -84,11 +84,6 @@ paths:
       - application/json
       description: Delete a transcoder
       parameters:
-      - description: JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: input_type
         in: query
         name: input_type
@@ -140,7 +135,7 @@ paths:
           description: OK"github.com/amagi/kafkaConsumer
           schema:
             items:
-              $ref: '#/definitions/handlers.Transcoder'
+              $ref: '#/definitions/models.Transcoder'
             type: array
         "400":
           description: Invalid limit or skip.
@@ -191,17 +186,12 @@ paths:
       - application/json
       description: Adds the transcoder to the database
       parameters:
-      - description: JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Transcoder
         in: body
         name: input
         required: true
         schema:
-          $ref: '#/definitions/handlers.Transcoder'
+          $ref: '#/definitions/models.Transcoder'
       produces:
       - application/json
       responses:

@@ -18,7 +18,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint, nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -34,7 +34,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=1", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -55,7 +55,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=2", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -76,7 +76,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -97,7 +97,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?output_type=mp4", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -118,7 +118,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?input_type=dash&output_type=mp4", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -141,7 +141,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?operation=media_analysis", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -162,7 +162,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page=2", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -176,7 +176,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page=a", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -190,7 +190,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint+"?page_size=a", nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = transcoderCol
@@ -204,7 +204,7 @@ func TestGetTranscoder(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, RequestEndPoint, nil)
 		rec := httptest.NewRecorder()
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
 		h.Col = wrongCol

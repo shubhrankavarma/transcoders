@@ -16,7 +16,7 @@ import (
 // @Produce application/json
 // @Param input_type query string false "input_type"
 // @Param output_type query string false "output_type"
-// @Success 200 {object} []Transcoder "OK"github.com/amagi/kafkaConsumer
+// @Success 200 {object} []models.Transcoder "OK"github.com/amagi/kafkaConsumer
 // @Failure 500 {object} string "Internal Server Error"
 // @Failure 400 {object} string "Invalid limit or skip."
 // @Router /commands [get]

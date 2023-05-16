@@ -13,7 +13,6 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo-contrib/prometheus"
-	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
@@ -96,7 +95,7 @@ func adminMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		hToken := c.Request().Header.Get("Authorization")
 		claims := jwt.MapClaims{}
 		_, err := jwt.ParseWithClaims(hToken, claims, func(*jwt.Token) (interface{}, error) {
-			return []byte(cfg.JwtTokenSecret), nil
+			return []byte(""), nil
 		})
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Unable to parse token")
@@ -108,12 +107,11 @@ func adminMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-//@title Transcoders API
-//@version 1.0
-//@description This is a transcoders API server.
-//@BasePath /commandsvc
-//@schemes http
-
+// @title Commands API
+// @version 1.0
+// @description This is a commands API server.
+// @BasePath /commandsvc
+// @schemes http
 func main() {
 	e := echo.New()
 	e.Use(middleware.Recover())
@@ -127,9 +125,6 @@ func main() {
 
 	requestEndPoint := basePath + "/commands"
 
-	jwtMiddleware := echojwt.WithConfig(echojwt.Config{
-		SigningKey:  []byte(cfg.JwtTokenSecret),
-		TokenLookup: "header:Authorization"})
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{Format: `{"time":"${time_rfc3339_nano}","remote_ip":"${remote_ip}",` +
 		`"request_ID":"${header:x-Request-ID}"+"host":"${host}","method":"${method}","uri":"${uri}","user_agent":"${user_agent}",` +
 		`"status":${status},"error":"${error}","latency_human":"${latency_human}"` +
@@ -142,11 +137,11 @@ func main() {
 	e.GET(basePath+"/swagger/*", echoSwagger.WrapHandler)
 	e.GET(basePath+"/healthz", ch.Healthz)
 	e.GET(basePath+"/readyz", ch.Readyz)
-	e.POST(requestEndPoint, ch.AddTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
-	e.PUT(requestEndPoint, ch.PutTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
-	e.PATCH(requestEndPoint, ch.PatchTranscoder, middleware.BodyLimit("1M"), jwtMiddleware)
-	e.GET(requestEndPoint, ch.GetTranscoders, jwtMiddleware)
-	e.DELETE(requestEndPoint, ch.DeleteTranscoder, jwtMiddleware, adminMiddleware)
+	e.POST(requestEndPoint, ch.AddTranscoder, middleware.BodyLimit("1M"))
+	e.PUT(requestEndPoint, ch.PutTranscoder, middleware.BodyLimit("1M"))
+	e.PATCH(requestEndPoint, ch.PatchTranscoder, middleware.BodyLimit("1M"))
+	e.GET(requestEndPoint, ch.GetTranscoders)
+	e.DELETE(requestEndPoint, ch.DeleteTranscoder, adminMiddleware)
 
 	e.Logger.Infof("listening for requests on %s:%s", cfg.Host, cfg.Port)
 

@@ -19,7 +19,7 @@ func TestPutTranscoder(t *testing.T) {
 		fmt.Println(body)
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -35,7 +35,7 @@ func TestPutTranscoder(t *testing.T) {
 
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -52,7 +52,7 @@ func TestPutTranscoder(t *testing.T) {
 
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -69,7 +69,7 @@ func TestPutTranscoder(t *testing.T) {
 
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -85,7 +85,7 @@ func TestPutTranscoder(t *testing.T) {
 
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}
@@ -103,7 +103,7 @@ func TestPutTranscoder(t *testing.T) {
 
 		req := httptest.NewRequest(http.MethodPut, RequestEndPoint, strings.NewReader(body))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-		req.Header.Set("Authorization", jwtToken)
+
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 		h := &TranscoderHandler{}

@@ -22,7 +22,6 @@ To run this project, you will need to add the following environment variables to
 
 `TRANSCODERS_COLLECTION` (string) // Collection name
 
-`JWT_TOKEN_SECRET` (string) // JWT token secret 
 
 
 ## API Reference

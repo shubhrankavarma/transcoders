@@ -4,8 +4,8 @@
     ],
     "swagger": "2.0",
     "info": {
-        "description": "This is a transcoders API server.",
-        "title": "Transcoders API",
+        "description": "This is a commands API server.",
+        "title": "Commands API",
         "contact": {},
         "version": "1.0"
     },
@@ -40,7 +40,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.Transcoder"
+                                "$ref": "#/definitions/models.Transcoder"
                             }
                         }
                     },
@@ -104,19 +104,12 @@
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "description": "Transcoder",
                         "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.Transcoder"
+                            "$ref": "#/definitions/models.Transcoder"
                         }
                     }
                 ],
@@ -162,13 +155,6 @@
                     "application/json"
                 ],
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "input_type",
@@ -315,7 +301,7 @@
         }
     },
     "definitions": {
-        "handlers.StatusType": {
+        "models.StatusType": {
             "type": "string",
             "enum": [
                 "active",
@@ -326,7 +312,7 @@
                 "Inactive"
             ]
         },
-        "handlers.Transcoder": {
+        "models.Transcoder": {
             "type": "object",
             "required": [
                 "asset_type",
@@ -341,20 +327,20 @@
                 },
                 "audio_count": {
                     "description": "Audio extraction fields",
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "example": "1"
                 },
                 "channels_one_count": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "example": "1"
                 },
                 "channels_six_count": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "example": "1"
                 },
                 "channels_two_count": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "example": "1"
                 },
                 "created_at": {
                     "type": "string"
@@ -393,7 +379,7 @@
                 "status": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/handlers.StatusType"
+                            "$ref": "#/definitions/models.StatusType"
                         }
                     ],
                     "example": "active"

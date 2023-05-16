@@ -16,8 +16,7 @@ import (
 // @description Adds the transcoder to the database
 // @Router /commands [post]
 // @schemes http
-// @Param Authorization header string true "JWT Token"
-// @Param input body Transcoder true "Transcoder" required=true
+// @Param input body models.Transcoder true "Transcoder" required=true
 // @Accept application/json
 // @Produce application/json
 // @Success 201 {object} string "Transcoder added successfully."
