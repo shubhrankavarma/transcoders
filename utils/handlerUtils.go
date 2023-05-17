@@ -84,7 +84,7 @@ func MakeFilterForTranscoderAddition(transcoder models.Transcoder) bson.M {
 
 	// If asset_type is video and operation is extraction, then check for these params -
 	// InputScanType, OutputScanType
-	if transcoder.AssetType == "video" && transcoder.Operation == "extraction" {
+	if transcoder.AssetType == "video" && transcoder.Operation == "muxing" {
 		filter["input_scan_type"] = transcoder.InputScanType
 		filter["output_scan_type"] = transcoder.OutputScanType
 	}
