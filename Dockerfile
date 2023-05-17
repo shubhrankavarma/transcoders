@@ -30,7 +30,7 @@ RUN go build -o main .
 
 # STAGE 2
 # Build a small image
-FROM scratch
+FROM alpine:latest
 
 
 # arguments to be passed during build phase
