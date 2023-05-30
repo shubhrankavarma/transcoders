@@ -1,0 +1,8 @@
+organization=shubhrankavarma
+projectKey=shubhrankavarma_transcoders
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.41494
+branch=develop
+dashboardUrl=https://sonarcloud.io/dashboard?id=shubhrankavarma_transcoders&branch=develop&resolved=false
+ceTaskId=AYhrYmhLFRpKl2VCRRAv
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYhrYmhLFRpKl2VCRRAv
